@@ -82,7 +82,7 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   }, [location.pathname]);
 
   return (
-    <div className="flex h-[100dvh] w-screen bg-black text-white overflow-hidden relative">
+    <div className="flex h-[100dvh] w-screen bg-black text-white overflow-hidden relative md:p-2 md:gap-2">
       <AudioController /> {/* Persistent Audio Logic */}
       
       {!isFullScreenPage && <Sidebar />}
@@ -107,12 +107,12 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
       
       <main 
         ref={mainRef}
-        className={`flex-1 relative overflow-y-auto bg-black lg:bg-surface lg:rounded-lg lg:my-2 lg:mx-0 no-scrollbar overscroll-none ${isFullScreenPage ? 'z-50 !m-0 !rounded-none' : ''} ${isFullScreen && !isFullScreenPage ? 'md:mr-[416px] lg:mr-[466px]' : 'md:mr-0 lg:mr-2'} transition-all duration-300`}
+        className={`flex-1 relative overflow-y-auto bg-black md:bg-[#121212] md:rounded-xl no-scrollbar overscroll-none ${isFullScreenPage ? 'z-50 !m-0 !rounded-none' : ''} ${isFullScreen && !isFullScreenPage ? 'md:mr-[358px] xl:mr-[428px]' : 'md:mr-0'} transition-all duration-300`}
       >
          {/* Main Content */}
         {children}
         {/* Spacer for bottom nav/player on mobile */}
-        {!isFullScreenPage && <div className="h-48 md:h-32 lg:h-24 w-full"></div>}
+        {!isFullScreenPage && <div className="h-48 md:h-32 xl:h-24 w-full"></div>}
       </main>
 
       {!isFullScreenPage && <DownloadProgress />}

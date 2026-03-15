@@ -9,9 +9,9 @@ export const BottomNav: React.FC = () => {
   
   // Offset the dock if the player is visible so it stays centered in the remaining space
   const rightOffset = isFullScreen 
-    ? 'md:right-[416px] lg:right-[466px]' 
+    ? 'md:right-[416px] xl:right-[466px]' 
     : currentSong 
-      ? 'md:right-[380px] lg:right-[420px]' 
+      ? 'md:right-[380px] xl:right-[420px]' 
       : 'right-0';
 
   return (
@@ -20,7 +20,7 @@ export const BottomNav: React.FC = () => {
       animate={{ y: 0, opacity: 1 }}
       exit={{ y: 100, opacity: 0 }}
       transition={{ type: "tween", ease: "easeInOut", duration: 0.3 }}
-      className={`lg:hidden fixed bottom-4 md:bottom-6 left-0 z-[160] flex justify-center pointer-events-none transition-all duration-300 right-0 ${rightOffset}`}
+      className={`xl:hidden fixed bottom-4 md:bottom-6 left-0 z-[160] flex justify-center pointer-events-none transition-all duration-300 right-0 ${rightOffset}`}
     >
        <div className="bg-[#282828]/95 backdrop-blur-md pointer-events-auto rounded-full px-8 py-3 flex items-center gap-8 shadow-2xl border border-white/10">
           <NavLink to="/" className="flex flex-col items-center gap-1.5 min-w-[64px]">

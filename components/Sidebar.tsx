@@ -15,9 +15,9 @@ export const Sidebar: React.FC = () => {
   const navigate = useNavigate();
 
   return (
-    <aside className="w-[320px] bg-black flex flex-col h-full gap-2 p-3 hidden lg:flex">
+    <aside className="w-[320px] flex flex-col h-full gap-2 hidden xl:flex">
       {/* Navigation Block - Material 3 Style */}
-      <div className="bg-[#121212] rounded-[24px] py-4 px-3 flex flex-col gap-1">
+      <div className="bg-[#121212] rounded-xl py-4 px-3 flex flex-col gap-1">
         <div className="px-5 py-2 mb-2">
             <img 
                 src="https://storage.googleapis.com/pr-newsroom-wp/1/2018/11/Spotify_Logo_RGB_White.png" 
@@ -56,7 +56,7 @@ export const Sidebar: React.FC = () => {
       </div>
 
       {/* Library Block */}
-      <div className="bg-[#121212] rounded-[24px] flex-1 flex flex-col overflow-hidden">
+      <div className="bg-[#121212] rounded-xl flex-1 flex flex-col overflow-hidden">
         {/* Library Header */}
         <div className="flex items-center justify-between px-6 py-4 z-10">
           <div 
