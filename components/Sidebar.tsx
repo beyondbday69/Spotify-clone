@@ -15,7 +15,7 @@ export const Sidebar: React.FC = () => {
   const navigate = useNavigate();
 
   return (
-    <aside className="w-[320px] bg-black flex flex-col h-full gap-2 p-3 hidden md:flex">
+    <aside className="w-[320px] bg-black flex flex-col h-full gap-2 p-3 hidden lg:flex">
       {/* Navigation Block - Material 3 Style */}
       <div className="bg-[#121212] rounded-[24px] py-4 px-3 flex flex-col gap-1">
         <div className="px-5 py-2 mb-2">

@@ -69,7 +69,7 @@ const AnimatedRoutes: React.FC = () => {
 // Layout wrapper to handle scroll behavior and structure
 const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const location = useLocation();
-  const { isOfflineMode } = usePlayerStore();
+  const { isOfflineMode, isFullScreen } = usePlayerStore();
   // Pages that don't need sidebar/player
   const isFullScreenPage = ['/premium', '/login', '/signup', '/artists/select'].includes(location.pathname);
   const mainRef = useRef<HTMLElement>(null);
@@ -107,12 +107,12 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
       
       <main 
         ref={mainRef}
-        className={`flex-1 relative overflow-y-auto bg-black md:bg-surface md:rounded-lg md:my-2 md:mx-0 no-scrollbar overscroll-none ${isFullScreenPage ? 'z-50 !m-0 !rounded-none' : ''}`}
+        className={`flex-1 relative overflow-y-auto bg-black lg:bg-surface lg:rounded-lg lg:my-2 lg:mx-0 no-scrollbar overscroll-none ${isFullScreenPage ? 'z-50 !m-0 !rounded-none' : ''} ${isFullScreen && !isFullScreenPage ? 'md:mr-[416px] lg:mr-[466px]' : 'md:mr-0 lg:mr-2'} transition-all duration-300`}
       >
          {/* Main Content */}
         {children}
         {/* Spacer for bottom nav/player on mobile */}
-        {!isFullScreenPage && <div className="h-32 md:h-24 w-full"></div>}
+        {!isFullScreenPage && <div className="h-48 md:h-32 lg:h-24 w-full"></div>}
       </main>
 
       {!isFullScreenPage && <DownloadProgress />}

@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { Play, Pause, SkipBack, SkipForward, ChevronDown, Download, Heart, Loader2, Shuffle, Repeat, CheckCircle2, PlusCircle, Sparkles } from 'lucide-react';
+import { Play, Pause, SkipBack, SkipForward, ChevronDown, Download, Heart, Loader2, Shuffle, Repeat, CheckCircle2, PlusCircle, Sparkles, PanelRightClose } from 'lucide-react';
 import { usePlayerStore } from '../store/playerStore';
 import { api, getImageUrl } from '../services/api';
 import { AnimatePresence, motion } from 'framer-motion';
@@ -214,7 +214,7 @@ export const Player: React.FC = () => {
                     animate={{ y: 0 }}
                     exit={{ y: "100%" }}
                     transition={transitionSpec}
-                    className="fixed inset-0 z-[200] flex flex-col bg-[#121212] isolate overflow-hidden"
+                    className="fixed inset-0 md:inset-y-2 md:right-2 md:left-auto md:w-[400px] lg:w-[450px] md:rounded-lg z-[200] flex flex-col bg-[#121212] isolate overflow-hidden shadow-2xl"
                     onClick={(e) => e.stopPropagation()}
                     onTouchStart={handleTouchStart}
                     onTouchEnd={handleTouchEnd}
@@ -231,7 +231,10 @@ export const Player: React.FC = () => {
                         
                         {/* Header */}
                         <div className="flex items-center justify-between h-14 shrink-0 mt-2">
-                            <button onClick={() => setFullScreen(false)} className="p-2 -ml-2 rounded-full hover:bg-white/10 shrink-0"><ChevronDown size={28} className="text-white" /></button>
+                            <button onClick={() => setFullScreen(false)} className="p-2 -ml-2 rounded-full hover:bg-white/10 shrink-0">
+                                <ChevronDown size={28} className="text-white md:hidden" />
+                                <PanelRightClose size={24} className="text-white hidden md:block" />
+                            </button>
                             <span className="text-[11px] font-bold tracking-[0.15em] uppercase text-white/70">Now Playing</span>
                             <div className="w-10"></div> {/* Spacer for alignment since 3 dots are removed */}
                         </div>
@@ -312,8 +315,8 @@ export const Player: React.FC = () => {
                     animate={{ y: 0, opacity: 1 }}
                     exit={{ y: "100%", opacity: 0 }}
                     transition={transitionSpec}
-                    // Updated: bottom-24 for mobile (approx 96px) to sit above nav, md:bottom-4 for desktop
-                    className="fixed bottom-24 md:bottom-4 left-2 right-2 md:left-1/2 md:-translate-x-1/2 md:w-[450px] h-[56px] z-[150] cursor-pointer isolate"
+                    // Updated: bottom-[100px] for mobile to sit above dock, md:bottom-6 for desktop
+                    className="fixed bottom-[100px] md:bottom-6 left-2 right-2 md:left-auto md:right-6 md:w-[360px] lg:w-[400px] md:translate-x-0 h-[64px] z-[150] cursor-pointer isolate"
                     onClick={() => setFullScreen(true)}
                     style={{ transform: 'translateZ(0)' }}
                 >
@@ -326,7 +329,7 @@ export const Player: React.FC = () => {
                     </motion.div>
                     
                     <div className="flex items-center h-full px-2 gap-3">
-                        <div className="h-10 w-10 shrink-0 rounded-[4px] overflow-hidden bg-[#333]">
+                        <div className="h-12 w-12 shrink-0 rounded-[6px] overflow-hidden bg-[#333]">
                             <img 
                                 src={imageUrl} 
                                 alt="" 
@@ -335,10 +338,10 @@ export const Player: React.FC = () => {
                         </div>
                         
                         <div className="flex-1 min-w-0 pr-2 flex flex-col justify-center">
-                            <div className="text-white font-bold text-xs truncate">
+                            <div className="text-white font-bold text-sm truncate">
                                 {currentSong.name}
                             </div>
-                            <div className="text-white/70 text-[10px] truncate">
+                            <div className="text-white/70 text-xs truncate">
                                 {currentSong.artists.primary[0]?.name}
                             </div>
                         </div>
