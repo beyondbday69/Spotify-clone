@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { authService } from '../services/auth';
 import { usePlayerStore } from '../store/playerStore';
-import { ArrowLeft, Loader2 } from 'lucide-react';
+import { ArrowLeft, Loader2, AlertTriangle } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 const GoogleIcon = () => (
@@ -116,7 +116,7 @@ export const Login: React.FC = () => {
 
             {error && (
                 <motion.div variants={itemVariants} className="bg-[#e91429] text-white p-3 rounded-full text-sm text-center flex items-center justify-center gap-2 font-medium">
-                   <span>⚠️</span> {error}
+                   <AlertTriangle size={16} /> {error}
                 </motion.div>
             )}
 

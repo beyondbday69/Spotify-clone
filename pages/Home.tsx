@@ -111,7 +111,7 @@ export const Home: React.FC = () => {
     return () => main?.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const ShortcutCard: React.FC<{ title: string, image?: string, specialType?: 'liked' | 'whyus', onClick?: () => void }> = ({ title, image, specialType, onClick }) => (
+  const ShortcutCard: React.FC<{ title: string, image?: string, specialType?: 'liked', onClick?: () => void }> = ({ title, image, specialType, onClick }) => (
     <motion.div 
         whileHover={{ scale: 1.02, backgroundColor: '#3E3E3E' }}
         whileTap={{ scale: 0.98 }}
@@ -122,15 +122,11 @@ export const Home: React.FC = () => {
             <div className="h-full w-[56px] bg-gradient-to-br from-[#450af5] to-[#c4efd9] flex items-center justify-center shrink-0 opacity-100">
                 <svg role="img" height="24" width="24" aria-hidden="true" viewBox="0 0 24 24" fill="white"><path d="M15.724 4.22A4.313 4.313 0 0 0 12.192.814a4.269 4.269 0 0 0-3.622 1.13.837.837 0 0 1-1.14 0 4.272 4.272 0 0 0-6.21 5.855l5.916 7.05a1.128 1.128 0 0 0 1.727 0l5.916-7.05a4.228 4.228 0 0 0 .945-3.577z"></path></svg>
             </div>
-        ) : specialType === 'whyus' ? (
-            <div className="h-full w-[56px] bg-gradient-to-br from-accent to-emerald-700 flex items-center justify-center shrink-0 opacity-100">
-                <Rocket size={24} className="text-white" />
-            </div>
         ) : (
             <img src={image} className="h-full w-[56px] object-cover shrink-0 shadow-none" alt=""/>
         )}
         <div className="flex flex-1 items-center justify-between pr-3 pl-3 overflow-hidden">
-             <span className={`font-bold text-[13px] leading-tight line-clamp-2 ${specialType === 'whyus' ? 'text-accent' : 'text-white'}`}>{title}</span>
+             <span className={`font-bold text-[13px] leading-tight line-clamp-2 text-white`}>{title}</span>
         </div>
     </motion.div>
   );
@@ -194,12 +190,10 @@ export const Home: React.FC = () => {
           <div className="grid grid-cols-2 gap-3">
             <ShortcutCard title="Liked Songs" specialType="liked" onClick={() => navigate('/library')} />
             
-            <ShortcutCard title="Why Vibestream?" specialType="whyus" onClick={() => navigate('/why-us')} />
-            
             {!isOfflineMode && isLoading ? (
-                Array(4).fill(0).map((_, i) => <SkeletonShortcut key={i} />)
+                Array(5).fill(0).map((_, i) => <SkeletonShortcut key={i} />)
             ) : !isOfflineMode ? (
-                recent.slice(0, 4).map((item, idx) => (
+                recent.slice(0, 5).map((item, idx) => (
                     <ShortcutCard 
                         key={item.id + idx} 
                         title={item.name} 

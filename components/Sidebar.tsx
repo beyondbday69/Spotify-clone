@@ -1,5 +1,5 @@
 import React from 'react';
-import { Home, Search, Library, Plus, ArrowRight, Heart, Music, UserCircle, LogOut, Sparkles, Rocket } from 'lucide-react';
+import { Home, Search, Library, Plus, ArrowRight, Heart, Music, UserCircle, LogOut, Sparkles, Rocket, Pin } from 'lucide-react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { usePlayerStore } from '../store/playerStore';
 import { getImageUrl } from '../services/api';
@@ -41,15 +41,6 @@ export const Sidebar: React.FC = () => {
              <>
                <Search size={24} strokeWidth={isActive ? 3 : 2} />
                <span>Search</span>
-             </>
-          )}
-        </NavLink>
-
-        <NavLink to="/why-us" className={({ isActive }) => `flex items-center gap-5 px-5 py-3 rounded-full transition-all duration-200 group ${isActive ? 'bg-white/10 text-white font-bold' : 'text-[#B3B3B3] hover:text-white hover:bg-white/5 font-medium'}`}>
-          {({ isActive }) => (
-             <>
-               <Rocket size={24} className={isActive ? "text-accent" : ""} />
-               <span className={isActive ? "text-accent" : ""}>Why us?</span>
              </>
           )}
         </NavLink>
@@ -105,7 +96,7 @@ export const Sidebar: React.FC = () => {
                 <div className="flex flex-col overflow-hidden">
                     <span className="text-white font-medium truncate text-[15px]">Liked Songs</span>
                     <div className="flex items-center gap-1 text-sm text-[#B3B3B3] truncate">
-                        <span className="text-accent -rotate-45">📌</span>
+                        <Pin size={14} className="text-accent -rotate-45" />
                         <span>Auto Playlist</span>
                     </div>
                 </div>

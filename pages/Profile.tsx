@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { usePlayerStore } from '../store/playerStore';
 import { uploadToCloudinary } from '../services/api';
-import { ArrowLeft, Camera, Loader2, LogOut, Cloud, SignalHigh, SignalMedium, SignalLow, Music2, Users, ChevronRight, Mail, Shield, RotateCcw, Youtube, Library, Globe, Layers, DownloadCloud, Palette } from 'lucide-react';
+import { ArrowLeft, Camera, Loader2, LogOut, Cloud, SignalHigh, SignalMedium, SignalLow, Music2, Users, ChevronRight, Mail, Shield, RotateCcw, Youtube, Library, Globe, Layers, DownloadCloud, Palette, Sparkles } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 const containerVariants = {
@@ -391,8 +391,8 @@ export const Profile: React.FC = () => {
                    <div className="flex items-center justify-between bg-[#2A2A2A] p-4 rounded-md">
                         <div className="flex flex-col gap-1">
                             <span className="text-white font-bold text-sm">Version {currentVersion}</span>
-                            <span className={`text-xs ${updateAvailable ? 'text-accent' : 'text-[#B3B3B3]'}`}>
-                                {updateAvailable ? '✨ New version 2.5.0 available' : 'You are up to date'}
+                            <span className={`text-xs flex items-center gap-1 ${updateAvailable ? 'text-accent' : 'text-[#B3B3B3]'}`}>
+                                {updateAvailable ? <><Sparkles size={12} /> New version 2.5.0 available</> : 'You are up to date'}
                             </span>
                         </div>
                         <button 

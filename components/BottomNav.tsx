@@ -20,44 +20,43 @@ export const BottomNav: React.FC = () => {
       animate={{ y: 0, opacity: 1 }}
       exit={{ y: 100, opacity: 0 }}
       transition={{ type: "tween", ease: "easeInOut", duration: 0.3 }}
-      className={`xl:hidden fixed bottom-4 md:bottom-6 left-0 z-[160] flex justify-center pointer-events-none transition-all duration-300 right-0 ${rightOffset}`}
+      className={`xl:hidden fixed bottom-2 md:bottom-6 left-0 right-0 mx-auto z-[160] pointer-events-none transition-all duration-300 w-[calc(100%-16px)] max-w-[400px] ${rightOffset}`}
     >
        <div 
-          className="bg-[#282828]/95 backdrop-blur-md pointer-events-auto rounded-full flex items-center gap-8 shadow-2xl border-white/10 w-[500px] pl-[20px] pr-[3px] pb-[6px] pt-[13px] ml-0 border-[1.5px] font-sans font-normal not-italic no-underline text-justify"
-          style={{ borderStyle: 'inset' }}
+          className="bg-[#282828]/95 backdrop-blur-md pointer-events-auto rounded-xl flex items-center justify-around shadow-2xl border border-white/10 w-full py-2 px-2"
        >
-          <NavLink to="/" className="flex flex-col items-center gap-1.5 min-w-[64px]">
+          <NavLink to="/" className="flex flex-col items-center gap-1 min-w-[64px] py-1">
             {({ isActive }) => (
               <>
-                <Home size={28} strokeWidth={isActive ? 2.5 : 2} className={isActive ? 'text-white' : 'text-[#B3B3B3]'} fill={isActive ? "white" : "none"} />
-                <span className={`text-[11px] font-medium transition-colors ${isActive ? 'text-white' : 'text-[#B3B3B3]'}`}>Home</span>
+                <Home size={24} strokeWidth={isActive ? 2.5 : 2} className={isActive ? 'text-white' : 'text-[#B3B3B3]'} fill={isActive ? "white" : "none"} />
+                <span className={`text-[10px] font-medium transition-colors ${isActive ? 'text-white' : 'text-[#B3B3B3]'}`}>Home</span>
               </>
             )}
           </NavLink>
 
-          <NavLink to="/search" className="flex flex-col items-center gap-1.5 min-w-[64px]">
+          <NavLink to="/search" className="flex flex-col items-center gap-1 min-w-[64px] py-1">
             {({ isActive }) => (
               <>
-                <Search size={28} strokeWidth={isActive ? 3 : 2} className={isActive ? 'text-white' : 'text-[#B3B3B3]'} />
-                <span className={`text-[11px] font-medium transition-colors ${isActive ? 'text-white' : 'text-[#B3B3B3]'}`}>Search</span>
+                <Search size={24} strokeWidth={isActive ? 3 : 2} className={isActive ? 'text-white' : 'text-[#B3B3B3]'} />
+                <span className={`text-[10px] font-medium transition-colors ${isActive ? 'text-white' : 'text-[#B3B3B3]'}`}>Search</span>
               </>
             )}
           </NavLink>
 
-          <NavLink to="/library" className="flex flex-col items-center gap-1.5 min-w-[64px]">
+          <NavLink to="/library" className="flex flex-col items-center gap-1 min-w-[64px] py-1">
             {({ isActive }) => (
               <>
-                <Library size={28} strokeWidth={isActive ? 2.5 : 2} className={isActive ? 'text-white' : 'text-[#B3B3B3]'} fill={isActive ? "white" : "none"} />
-                <span className={`text-[11px] font-medium transition-colors ${isActive ? 'text-white' : 'text-[#B3B3B3]'}`}>Your Library</span>
+                <Library size={24} strokeWidth={isActive ? 2.5 : 2} className={isActive ? 'text-white' : 'text-[#B3B3B3]'} fill={isActive ? "white" : "none"} />
+                <span className={`text-[10px] font-medium transition-colors ${isActive ? 'text-white' : 'text-[#B3B3B3]'}`}>Library</span>
               </>
             )}
           </NavLink>
 
-           <NavLink to="/social" className="flex flex-col items-center gap-1.5 min-w-[64px]">
+           <NavLink to="/social" className="flex flex-col items-center gap-1 min-w-[64px] py-1">
             {({ isActive }) => (
               <>
-                <Users size={28} strokeWidth={isActive ? 2.5 : 2} className={isActive ? 'text-white' : 'text-[#B3B3B3]'} fill={isActive ? "white" : "none"} />
-                <span className={`text-[11px] font-medium transition-colors ${isActive ? 'text-white' : 'text-[#B3B3B3]'}`}>Social</span>
+                <Users size={24} strokeWidth={isActive ? 2.5 : 2} className={isActive ? 'text-white' : 'text-[#B3B3B3]'} fill={isActive ? "white" : "none"} />
+                <span className={`text-[10px] font-medium transition-colors ${isActive ? 'text-white' : 'text-[#B3B3B3]'}`}>Social</span>
               </>
             )}
           </NavLink>

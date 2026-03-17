@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { usePlayerStore } from '../store/playerStore';
 import { authService } from '../services/auth';
 import { getImageUrl, api } from '../services/api';
-import { Play, Pause, Clock3, MoreHorizontal, Trash2, Music, ArrowLeft, Search, Heart, Share2, Check, User } from 'lucide-react';
+import { Play, Pause, Clock3, MoreHorizontal, Trash2, Music, ArrowLeft, Search, Heart, Share2, Check, User, X } from 'lucide-react';
 import { Song, UserPlaylist } from '../types';
 import { motion } from 'framer-motion';
 
@@ -336,7 +336,7 @@ export const PlaylistDetails: React.FC = () => {
                         />
                         {searchQuery && (
                             <button onClick={() => setSearchQuery('')} className="absolute right-3 top-1/2 -translate-y-1/2">
-                                 {isSearching ? <div className="w-4 h-4 border-2 border-white/20 border-t-white rounded-full animate-spin"></div> : <div className="text-white/50 hover:text-white">✕</div>}
+                                 {isSearching ? <div className="w-4 h-4 border-2 border-white/20 border-t-white rounded-full animate-spin"></div> : <X size={16} className="text-white/50 hover:text-white" />}
                             </button>
                         )}
                     </div>

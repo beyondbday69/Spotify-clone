@@ -205,152 +205,146 @@ export const Player: React.FC = () => {
   const imageUrl = getImageUrl(currentSong.image);
 
   return (
-    <AnimatePresence>
-        <motion.div 
-            layout
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 20 }}
-            transition={{ 
-                layout: { type: "spring", bounce: 0, duration: 0.4 },
-                opacity: { duration: 0.2 }
-            }}
-            className={`fixed z-[200] bg-[#121212] overflow-hidden shadow-2xl flex flex-col isolate ${
-                isFullScreen 
-                    ? "inset-0 md:inset-y-2 md:right-2 md:left-auto md:w-[350px] xl:w-[420px] md:rounded-xl" 
-                    : "bottom-[100px] md:bottom-6 left-2 right-2 md:left-auto md:right-6 md:w-[350px] xl:w-[420px] h-[64px] rounded-lg md:rounded-xl cursor-pointer"
-            }`}
-            onClick={() => !isFullScreen && setFullScreen(true)}
-            style={{ transformOrigin: "bottom right" }}
-        >
-            {/* Backgrounds */}
+    <AnimatePresence mode="wait">
+        {isFullScreen ? (
             <motion.div 
-                className="absolute inset-0 z-[-1] pointer-events-none" 
-                animate={{ opacity: isFullScreen ? 1 : 0 }}
-                style={{ backgroundColor: dominantColor, background: `linear-gradient(to bottom, ${dominantColor}80, #121212)` }} 
-                transition={{ duration: 0.2 }}
-            />
-            <motion.div 
-                className="absolute inset-0 z-[-1] pointer-events-none bg-[#222]" 
-                animate={{ opacity: !isFullScreen ? 1 : 0, backgroundColor: dominantColor }}
-                transition={{ duration: 0.2 }}
+                key="full-player"
+                initial={{ x: '100%', opacity: 0 }}
+                animate={{ x: 0, opacity: 1 }}
+                exit={{ x: '100%', opacity: 0 }}
+                transition={{ type: "spring", damping: 25, stiffness: 200 }}
+                className="fixed z-[200] bg-[#121212] overflow-hidden shadow-2xl flex flex-col isolate inset-0 md:inset-y-2 md:right-2 md:left-auto md:w-[350px] xl:w-[420px] md:rounded-xl"
             >
-                <div className="absolute inset-0 bg-black/20" />
-            </motion.div>
+                {/* Backgrounds */}
+                <div 
+                    className="absolute inset-0 z-[-1] pointer-events-none" 
+                    style={{ backgroundColor: dominantColor, background: `linear-gradient(to bottom, ${dominantColor}80, #121212)` }} 
+                />
 
-            {/* Full Player Content */}
-            <motion.div 
-                className="absolute inset-0 flex flex-col h-full px-6 pt-safe-top pb-8 md:pb-12"
-                initial={false}
-                animate={{ opacity: isFullScreen ? 1 : 0, pointerEvents: isFullScreen ? 'auto' : 'none' }}
-                transition={{ duration: 0.2 }}
-                onTouchStart={handleTouchStart}
-                onTouchEnd={handleTouchEnd}
-            >
-                {/* Header */}
-                <div className="flex items-center justify-between h-14 shrink-0 mt-2">
-                    <button onClick={(e) => { e.stopPropagation(); setFullScreen(false); }} className="p-2 -ml-2 rounded-full hover:bg-white/10 shrink-0">
-                        <ChevronDown size={28} className="text-white md:hidden" />
-                        <PanelRightClose size={24} className="text-white/70 hover:text-white hidden md:block" />
-                    </button>
-                    <span className="text-[11px] font-bold tracking-[0.15em] uppercase text-white/70">Now Playing</span>
-                    <div className="w-10"></div>
-                </div>
-
-                {/* Art */}
-                <div className="flex-1 flex flex-col justify-center items-center min-h-0 py-4 md:py-8">
-                    <div className="relative w-full aspect-square max-h-full max-w-[340px] shadow-2xl rounded-xl overflow-hidden bg-[#222]">
-                        <img src={imageUrl} alt="Cover" className="w-full h-full object-cover" />
-                    </div>
-                </div>
-
-                {/* Info & Controls */}
-                <div className="flex flex-col shrink-0 gap-6">
-                    <div className="flex items-center justify-between">
-                        <div className="flex flex-col overflow-hidden mr-4 min-w-0">
-                            <h2 className="text-2xl font-bold text-white truncate leading-tight">{currentSong.name}</h2>
-                            <p className="text-lg text-white/70 truncate">{currentSong.artists?.primary?.[0]?.name}</p>
-                        </div>
-                        <button onClick={(e) => { e.stopPropagation(); toggleLike(currentSong); }} className="shrink-0 p-1 rounded-full hover:bg-white/10 transition-colors">
-                            {isLiked ? <CheckCircle2 size={28} className="text-accent fill-black" /> : <PlusCircle size={28} className="text-white/70" />}
+                {/* Full Player Content */}
+                <div 
+                    className="absolute inset-0 flex flex-col h-full px-6 pt-safe-top pb-8 md:pb-12"
+                    onTouchStart={handleTouchStart}
+                    onTouchEnd={handleTouchEnd}
+                >
+                    {/* Header */}
+                    <div className="flex items-center justify-between h-14 shrink-0 mt-2">
+                        <button onClick={(e) => { e.stopPropagation(); setFullScreen(false); }} className="p-2 -ml-2 rounded-full hover:bg-white/10 shrink-0">
+                            <ChevronDown size={28} className="text-white md:hidden" />
+                            <PanelRightClose size={24} className="text-white/70 hover:text-white hidden md:block" />
                         </button>
+                        <span className="text-[11px] font-bold tracking-[0.15em] uppercase text-white/70">Now Playing</span>
+                        <div className="w-10"></div>
                     </div>
 
-                    {/* Scrubber */}
-                    <div className="flex flex-col gap-2 pt-2 slider-container" onClick={(e) => e.stopPropagation()}>
-                        <div 
-                            ref={seekBarRef}
-                            className="relative h-4 w-full flex items-center cursor-pointer touch-none group"
-                            onPointerDown={handlePointerDown}
-                            onPointerMove={handlePointerMove}
-                            onPointerUp={handlePointerUp}
-                            onPointerCancel={handlePointerUp}
-                            style={{ touchAction: 'none' }} 
-                        >
-                             <div className="absolute left-0 right-0 h-1 bg-white/20 rounded-full overflow-hidden pointer-events-none group-hover:h-1.5 transition-all">
-                                 <div ref={fullProgressRef} className="h-full bg-white rounded-full" style={{ width: '0%' }} />
-                             </div>
-                             <div ref={fullThumbRef} className="absolute h-3 w-3 bg-white rounded-full shadow-md z-10 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity" style={{ left: '-6px' }} />
-                        </div>
-                        <div className="flex justify-between text-[11px] text-white/50 font-mono font-medium pointer-events-none">
-                            <span ref={fullTimeRef}>0:00</span>
-                            <span>{formatTime(duration)}</span>
+                    {/* Art */}
+                    <div className="flex-1 flex flex-col justify-center items-center min-h-0 py-4 md:py-8">
+                        <div className="relative w-full aspect-square max-h-full max-w-[340px] shadow-2xl rounded-xl overflow-hidden bg-[#222]">
+                            <img src={imageUrl} alt="Cover" className="w-full h-full object-cover" />
                         </div>
                     </div>
 
-                    {/* Main Controls */}
-                    <div className="flex items-center justify-between px-2 mb-4" onClick={(e) => e.stopPropagation()}>
-                        <button 
-                            onClick={toggleShuffle} 
-                            className={`shrink-0 relative group p-2 rounded-full transition-colors ${shuffleMode !== 'off' ? 'text-accent' : 'text-white/40 hover:text-white'}`}
-                        >
-                            <Shuffle size={20} />
-                            {shuffleMode === 'smart' && (
-                                <div className="absolute -top-1 -right-1">
-                                    <Sparkles size={8} fill="var(--theme-color)" className="text-accent" />
-                                </div>
-                            )}
-                        </button>
-                        <button onClick={prevSong} className="shrink-0 p-2 hover:bg-white/5 rounded-full transition-colors"><SkipBack size={32} className="text-white" fill="white" /></button>
-                        <button 
-                            onClick={togglePlay} 
-                            className="w-16 h-16 bg-white rounded-full flex items-center justify-center hover:scale-105 active:scale-95 transition-transform shrink-0 shadow-lg"
-                        >
-                            {isBuffering ? <Loader2 size={32} className="animate-spin text-black" /> : isPlaying ? <Pause size={32} fill="black" className="text-black" /> : <Play size={32} fill="black" className="ml-1 text-black" />}
-                        </button>
-                        <button onClick={nextSong} className="shrink-0 p-2 hover:bg-white/5 rounded-full transition-colors"><SkipForward size={32} className="text-white" fill="white" /></button>
-                        <button className="text-white/40 shrink-0 p-2 hover:text-white transition-colors"><Repeat size={20} /></button>
+                    {/* Info & Controls */}
+                    <div className="flex flex-col shrink-0 gap-6">
+                        <div className="flex items-center justify-between">
+                            <div className="flex flex-col overflow-hidden mr-4 min-w-0">
+                                <h2 className="text-2xl font-bold text-white truncate leading-tight">{currentSong.name}</h2>
+                                <p className="text-lg text-white/70 truncate">{currentSong.artists?.primary?.[0]?.name}</p>
+                            </div>
+                            <button onClick={(e) => { e.stopPropagation(); toggleLike(currentSong); }} className="shrink-0 p-1 rounded-full hover:bg-white/10 transition-colors">
+                                {isLiked ? <CheckCircle2 size={28} className="text-accent fill-black" /> : <PlusCircle size={28} className="text-white/70" />}
+                            </button>
+                        </div>
+
+                        {/* Scrubber */}
+                        <div className="flex flex-col gap-2 pt-2 slider-container" onClick={(e) => e.stopPropagation()}>
+                            <div 
+                                ref={seekBarRef}
+                                className="relative h-4 w-full flex items-center cursor-pointer touch-none group"
+                                onPointerDown={handlePointerDown}
+                                onPointerMove={handlePointerMove}
+                                onPointerUp={handlePointerUp}
+                                onPointerCancel={handlePointerUp}
+                                style={{ touchAction: 'none' }} 
+                            >
+                                 <div className="absolute left-0 right-0 h-1 bg-white/20 rounded-full overflow-hidden pointer-events-none group-hover:h-1.5 transition-all">
+                                     <div ref={fullProgressRef} className="h-full bg-white rounded-full" style={{ width: '0%' }} />
+                                 </div>
+                                 <div ref={fullThumbRef} className="absolute h-3 w-3 bg-white rounded-full shadow-md z-10 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity" style={{ left: '-6px' }} />
+                            </div>
+                            <div className="flex justify-between text-[11px] text-white/50 font-mono font-medium pointer-events-none">
+                                <span ref={fullTimeRef}>0:00</span>
+                                <span>{formatTime(duration)}</span>
+                            </div>
+                        </div>
+
+                        {/* Main Controls */}
+                        <div className="flex items-center justify-between px-2 mb-4" onClick={(e) => e.stopPropagation()}>
+                            <button 
+                                onClick={toggleShuffle} 
+                                className={`shrink-0 relative group p-2 rounded-full transition-colors ${shuffleMode !== 'off' ? 'text-accent' : 'text-white/40 hover:text-white'}`}
+                            >
+                                <Shuffle size={20} />
+                                {shuffleMode === 'smart' && (
+                                    <div className="absolute -top-1 -right-1">
+                                        <Sparkles size={8} fill="var(--theme-color)" className="text-accent" />
+                                    </div>
+                                )}
+                            </button>
+                            <button onClick={prevSong} className="shrink-0 p-2 hover:bg-white/5 rounded-full transition-colors"><SkipBack size={32} className="text-white" fill="white" /></button>
+                            <button 
+                                onClick={togglePlay} 
+                                className="w-16 h-16 bg-white rounded-full flex items-center justify-center hover:scale-105 active:scale-95 transition-transform shrink-0 shadow-lg"
+                            >
+                                {isBuffering ? <Loader2 size={32} className="animate-spin text-black" /> : isPlaying ? <Pause size={32} fill="black" className="text-black" /> : <Play size={32} fill="black" className="ml-1 text-black" />}
+                            </button>
+                            <button onClick={nextSong} className="shrink-0 p-2 hover:bg-white/5 rounded-full transition-colors"><SkipForward size={32} className="text-white" fill="white" /></button>
+                            <button className="text-white/40 shrink-0 p-2 hover:text-white transition-colors"><Repeat size={20} /></button>
+                        </div>
                     </div>
                 </div>
             </motion.div>
-
-            {/* Mini Player Content */}
+        ) : (
             <motion.div 
-                className="absolute inset-0 flex items-center h-full px-2 gap-3"
-                initial={false}
-                animate={{ opacity: !isFullScreen ? 1 : 0, pointerEvents: !isFullScreen ? 'auto' : 'none' }}
-                transition={{ duration: 0.2 }}
+                key="mini-player"
+                initial={{ y: 100, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                exit={{ y: 100, opacity: 0 }}
+                transition={{ type: "spring", damping: 25, stiffness: 200 }}
+                className="fixed z-[200] bg-[#121212] overflow-hidden shadow-2xl flex flex-col isolate bottom-[72px] md:bottom-6 left-0 right-0 mx-auto w-[calc(100%-16px)] max-w-[400px] md:left-auto md:right-6 md:mx-0 md:w-[350px] xl:w-[420px] h-[64px] rounded-xl cursor-pointer border border-white/10"
+                onClick={() => setFullScreen(true)}
             >
-                <div className="h-12 w-12 shrink-0 rounded-[6px] overflow-hidden bg-[#333]">
-                    <img src={imageUrl} alt="" className="w-full h-full object-cover" />
+                {/* Backgrounds */}
+                <div 
+                    className="absolute inset-0 z-[-1] pointer-events-none bg-[#222]" 
+                    style={{ backgroundColor: dominantColor }}
+                >
+                    <div className="absolute inset-0 bg-black/20" />
                 </div>
-                
-                <div className="flex-1 min-w-0 pr-2 flex flex-col justify-center">
-                    <div className="text-white font-bold text-sm truncate">{currentSong.name}</div>
-                    <div className="text-white/70 text-xs truncate">{currentSong.artists.primary[0]?.name}</div>
-                </div>
-                
-                <div className="flex items-center gap-1.5 shrink-0">
-                    <button onClick={(e) => { e.stopPropagation(); toggleLike(currentSong); }} className="p-1.5"><Heart size={20} fill={isLiked ? "var(--theme-color)" : "none"} className={isLiked ? "text-accent" : "text-white"} /></button>
-                    <button onClick={(e) => { e.stopPropagation(); togglePlay(); }} className="p-1.5 text-white">
-                        {isBuffering ? <Loader2 size={24} className="animate-spin" /> : isPlaying ? <Pause size={24} fill="white" /> : <Play size={24} fill="white" />}
-                    </button>
-                </div>
-                <div className="absolute bottom-0 left-1 right-1 h-[2px] bg-white/20 rounded-full overflow-hidden">
-                    <div ref={miniProgressRef} className="h-full bg-white rounded-full" style={{ width: '0%' }}></div>
+
+                {/* Mini Player Content */}
+                <div className="absolute inset-0 flex items-center h-full px-2 gap-3">
+                    <div className="h-12 w-12 shrink-0 rounded-[6px] overflow-hidden bg-[#333]">
+                        <img src={imageUrl} alt="" className="w-full h-full object-cover" />
+                    </div>
+                    
+                    <div className="flex-1 min-w-0 pr-2 flex flex-col justify-center">
+                        <div className="text-white font-bold text-sm truncate">{currentSong.name}</div>
+                        <div className="text-white/70 text-xs truncate">{currentSong.artists.primary[0]?.name}</div>
+                    </div>
+                    
+                    <div className="flex items-center gap-1.5 shrink-0">
+                        <button onClick={(e) => { e.stopPropagation(); toggleLike(currentSong); }} className="p-1.5"><Heart size={20} fill={isLiked ? "var(--theme-color)" : "none"} className={isLiked ? "text-accent" : "text-white"} /></button>
+                        <button onClick={(e) => { e.stopPropagation(); togglePlay(); }} className="p-1.5 text-white">
+                            {isBuffering ? <Loader2 size={24} className="animate-spin" /> : isPlaying ? <Pause size={24} fill="white" /> : <Play size={24} fill="white" />}
+                        </button>
+                    </div>
+                    <div className="absolute bottom-0 left-1 right-1 h-[2px] bg-white/20 rounded-full overflow-hidden">
+                        <div ref={miniProgressRef} className="h-full bg-white rounded-full" style={{ width: '0%' }}></div>
+                    </div>
                 </div>
             </motion.div>
-        </motion.div>
+        )}
     </AnimatePresence>
   );
 };
