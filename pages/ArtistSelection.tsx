@@ -95,7 +95,7 @@ export const ArtistSelection: React.FC = () => {
                 placeholder="Search" 
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full bg-white text-black pl-12 pr-4 py-3 rounded-md font-medium placeholder-black/50 focus:outline-none focus:ring-2 focus:ring-[#1DB954]"
+                className="w-full bg-white text-black pl-12 pr-4 py-3 rounded-md font-medium placeholder-black/50 focus:outline-none focus:ring-2 focus:ring-accent"
               />
           </div>
       </div>
@@ -104,7 +104,7 @@ export const ArtistSelection: React.FC = () => {
       <div className="flex-1 overflow-y-auto px-4 pb-32">
           {isLoading && displayArtists.length === 0 ? (
               <div className="flex justify-center pt-20">
-                  <Loader2 size={40} className="animate-spin text-[#1DB954]" />
+                  <Loader2 size={40} className="animate-spin text-accent" />
               </div>
           ) : (
               <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-y-8 gap-x-4 pt-4">
@@ -137,7 +137,7 @@ export const ArtistSelection: React.FC = () => {
                                             transition={{ duration: 0.2, ease: "backOut" }}
                                             className="absolute top-0 right-0 w-8 h-8 bg-white rounded-full flex items-center justify-center shadow-md z-10"
                                         >
-                                            <CheckCircle2 size={20} className="text-[#1DB954] fill-white bg-white rounded-full" />
+                                            <CheckCircle2 size={20} className="text-accent fill-white bg-white rounded-full" />
                                         </motion.div>
                                     )}
                                   </AnimatePresence>
@@ -145,7 +145,7 @@ export const ArtistSelection: React.FC = () => {
                                   {isSelected && (
                                       <motion.div 
                                         layoutId={`ring-${artist.id}`}
-                                        className="absolute inset-0 rounded-full border-[3px] border-[#1DB954]"
+                                        className="absolute inset-0 rounded-full border-[3px] border-accent"
                                         initial={{ opacity: 0, scale: 1.1 }}
                                         animate={{ opacity: 1, scale: 1.05 }}
                                         transition={{ duration: 0.2, ease: "easeOut" }}

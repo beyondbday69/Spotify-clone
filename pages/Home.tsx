@@ -123,20 +123,20 @@ export const Home: React.FC = () => {
                 <svg role="img" height="24" width="24" aria-hidden="true" viewBox="0 0 24 24" fill="white"><path d="M15.724 4.22A4.313 4.313 0 0 0 12.192.814a4.269 4.269 0 0 0-3.622 1.13.837.837 0 0 1-1.14 0 4.272 4.272 0 0 0-6.21 5.855l5.916 7.05a1.128 1.128 0 0 0 1.727 0l5.916-7.05a4.228 4.228 0 0 0 .945-3.577z"></path></svg>
             </div>
         ) : specialType === 'whyus' ? (
-            <div className="h-full w-[56px] bg-gradient-to-br from-[#1DB954] to-emerald-700 flex items-center justify-center shrink-0 opacity-100">
+            <div className="h-full w-[56px] bg-gradient-to-br from-accent to-emerald-700 flex items-center justify-center shrink-0 opacity-100">
                 <Rocket size={24} className="text-white" />
             </div>
         ) : (
             <img src={image} className="h-full w-[56px] object-cover shrink-0 shadow-none" alt=""/>
         )}
         <div className="flex flex-1 items-center justify-between pr-3 pl-3 overflow-hidden">
-             <span className={`font-bold text-[13px] leading-tight line-clamp-2 ${specialType === 'whyus' ? 'text-[#1DB954]' : 'text-white'}`}>{title}</span>
+             <span className={`font-bold text-[13px] leading-tight line-clamp-2 ${specialType === 'whyus' ? 'text-accent' : 'text-white'}`}>{title}</span>
         </div>
     </motion.div>
   );
 
-  const SectionTitle = ({ title }: { title: string }) => (
-      <h2 className="text-xl md:text-2xl font-bold mb-4 text-white px-4 hover:underline cursor-pointer tracking-tight">{title}</h2>
+  const SectionTitle = ({ title, style }: { title: string, style?: React.CSSProperties }) => (
+      <h2 className="text-xl md:text-2xl font-bold mb-4 text-white px-4 hover:underline cursor-pointer tracking-tight" style={style}>{title}</h2>
   );
 
   const handleProfileClick = () => {
@@ -162,7 +162,7 @@ export const Home: React.FC = () => {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             onClick={handleProfileClick}
-            className="w-9 h-9 rounded-full bg-gradient-to-tr from-[#1DB954] to-[#1ed760] flex items-center justify-center font-bold text-black text-sm shrink-0 cursor-pointer overflow-hidden shadow-md border-2 border-black"
+            className="w-9 h-9 rounded-full bg-gradient-to-tr from-accent to-accent\/70 flex items-center justify-center font-bold text-black text-sm shrink-0 cursor-pointer overflow-hidden shadow-md border-2 border-black"
          >
              {currentUser && currentUser.image ? (
                  <img src={currentUser.image} alt="Profile" className="w-full h-full object-cover" />
@@ -175,7 +175,7 @@ export const Home: React.FC = () => {
          <div className="flex items-center gap-3 overflow-x-auto no-scrollbar mask-linear-fade">
              {!isOfflineMode && (
                 <>
-                    <motion.button whileTap={{ scale: 0.95 }} className="px-5 py-2 bg-[#1DB954] text-black rounded-full text-[14px] font-bold transition-transform shadow-sm whitespace-nowrap">All</motion.button>
+                    <motion.button whileTap={{ scale: 0.95 }} className="px-5 py-2 bg-accent text-black rounded-full text-[14px] font-bold transition-transform shadow-sm whitespace-nowrap">All</motion.button>
                     <motion.button whileTap={{ scale: 0.95 }} className="px-5 py-2 bg-[#2A2A2A] text-white rounded-full text-[14px] font-medium whitespace-nowrap border border-transparent hover:bg-[#333]">Music</motion.button>
                     <motion.button whileTap={{ scale: 0.95 }} className="px-5 py-2 bg-[#2A2A2A] text-white rounded-full text-[14px] font-medium whitespace-nowrap border border-transparent hover:bg-[#333]">Podcasts</motion.button>
                 </>
@@ -235,7 +235,7 @@ export const Home: React.FC = () => {
       {!isOfflineMode && (
           <>
             <motion.section variants={itemVariants}>
-                <SectionTitle title="Your favorite artists" />
+                <SectionTitle title="Your favorite artists" style={{ borderStyle: 'ridge' }} />
                 <div className="flex overflow-x-auto gap-4 pb-4 no-scrollbar px-4 snap-x">
                     {isLoading ? (
                         Array(6).fill(0).map((_, i) => <SkeletonCard key={i} round={true} />)

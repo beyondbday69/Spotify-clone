@@ -5,8 +5,8 @@ export const Social: React.FC = () => {
   return (
     <div className="flex flex-col items-center justify-center h-full p-8 text-center gap-6 animate-in fade-in duration-500">
         <div className="relative">
-            <div className="absolute inset-0 bg-[#1DB954]/20 blur-3xl rounded-full"></div>
-            <Construction size={80} className="text-[#1DB954] relative z-10 animate-pulse" />
+            <div className="absolute inset-0 bg-accent/20 blur-3xl rounded-full"></div>
+            <Construction size={80} className="text-accent relative z-10 animate-pulse" />
         </div>
         
         <div className="flex flex-col gap-2 max-w-md">

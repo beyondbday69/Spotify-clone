@@ -128,7 +128,7 @@ export const Signup: React.FC = () => {
            <button 
               type="submit" 
               disabled={loading}
-              className="bg-[#1DB954] text-black font-bold py-3 rounded-full hover:scale-[1.02] active:scale-[0.98] transition-all mt-4 flex items-center justify-center uppercase tracking-widest text-sm"
+              className="bg-accent text-black font-bold py-3 rounded-full hover:scale-[1.02] active:scale-[0.98] transition-all mt-4 flex items-center justify-center uppercase tracking-widest text-sm"
            >
               {loading ? <Loader2 size={20} className="animate-spin" /> : 'Sign Up'}
            </button>

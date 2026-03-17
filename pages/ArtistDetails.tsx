@@ -166,7 +166,7 @@ export const ArtistDetails: React.FC = () => {
                  animate={{ scale: 1 }}
                  transition={{ type: "spring", delay: 0.5 }}
                  onClick={() => songs.length > 0 && playSong(songs[0], songs)}
-                 className="w-14 h-14 bg-[#1DB954] rounded-full flex items-center justify-center hover:scale-105 active:scale-95 transition-transform shadow-lg"
+                 className="w-14 h-14 bg-accent rounded-full flex items-center justify-center hover:scale-105 active:scale-95 transition-transform shadow-lg"
              >
                  {isPlaying && currentSong?.artists?.primary?.[0]?.name === artist.name ? (
                      <Pause size={28} fill="black" className="text-black" />
@@ -202,14 +202,14 @@ export const ArtistDetails: React.FC = () => {
                                 onClick={() => playSong(song, songs)}
                                 className={`flex items-center gap-4 p-3 rounded-md cursor-pointer transition-colors ${isCurrent ? 'bg-white/10' : 'hover:bg-white/5'}`}
                             >
-                                <span className={`w-4 text-center text-sm font-mono ${isCurrent ? 'text-[#1DB954]' : 'text-[#B3B3B3]'}`}>
+                                <span className={`w-4 text-center text-sm font-mono ${isCurrent ? 'text-accent' : 'text-[#B3B3B3]'}`}>
                                     {index + 1}
                                 </span>
 
                                 <img src={getImageUrl(song.image)} className="w-10 h-10 rounded object-cover" alt="" />
 
                                 <div className="flex-1 min-w-0">
-                                    <div className={`font-medium truncate text-[15px] ${isCurrent ? 'text-[#1DB954]' : 'text-white'}`}>
+                                    <div className={`font-medium truncate text-[15px] ${isCurrent ? 'text-accent' : 'text-white'}`}>
                                         {song.name}
                                     </div>
                                     <div className="text-xs text-[#B3B3B3] truncate">
@@ -226,7 +226,7 @@ export const ArtistDetails: React.FC = () => {
 
                                 <button 
                                     onClick={(e) => { e.stopPropagation(); toggleLike(song); }}
-                                    className={`${isSongLiked ? 'text-[#1DB954]' : 'text-[#B3B3B3] hover:text-white'}`}
+                                    className={`${isSongLiked ? 'text-accent' : 'text-[#B3B3B3] hover:text-white'}`}
                                 >
                                     {isSongLiked ? <CheckCircle2 size={18} /> : <PlusCircle size={18} />}
                                 </button>

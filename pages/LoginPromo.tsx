@@ -13,7 +13,7 @@ export const LoginPromo: React.FC = () => {
                 guest ? <Check size={20} /> : <X size={20} />
             ) : <span className="text-xs md:text-sm font-bold">{guest}</span>}
         </div>
-        <div className="flex justify-center text-[#1DB954]">
+        <div className="flex justify-center text-accent">
              {typeof premium === 'boolean' ? (
                 premium ? <Check size={24} strokeWidth={3} /> : <X size={24} />
             ) : <span className="text-xs md:text-sm font-bold">{premium}</span>}
@@ -25,7 +25,7 @@ export const LoginPromo: React.FC = () => {
     <div className="min-h-full bg-black text-white font-sans flex flex-col relative overflow-y-auto pb-10">
       
       {/* Background Ambience */}
-      <div className="fixed top-0 right-0 w-full h-[500px] bg-gradient-to-b from-[#1DB954]/20 to-black opacity-40 z-0 pointer-events-none"></div>
+      <div className="fixed top-0 right-0 w-full h-[500px] bg-gradient-to-b from-accent/20 to-black opacity-40 z-0 pointer-events-none"></div>
 
       {/* Header */}
       <div className="z-10 flex items-center justify-between p-4 sticky top-0 bg-transparent">
@@ -47,12 +47,12 @@ export const LoginPromo: React.FC = () => {
           
           {/* Comparison Table */}
           <div className="bg-[#121212] rounded-2xl p-5 md:p-8 shadow-2xl border border-white/5 mb-8 relative overflow-hidden">
-              <div className="absolute top-0 right-0 w-32 h-32 bg-[#1DB954]/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
+              <div className="absolute top-0 right-0 w-32 h-32 bg-accent/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
               
               <div className="grid grid-cols-[1.5fr_1fr_1fr] mb-6 pb-4 border-b border-white/20">
                   <span className="font-bold text-lg text-white">Feature</span>
                   <span className="font-bold text-center text-white/50">Guest</span>
-                  <span className="font-bold text-center text-[#1DB954]">Premium</span>
+                  <span className="font-bold text-center text-accent">Premium</span>
               </div>
 
               <FeatureRow title="Ad-free Music" guest={true} premium={true} />

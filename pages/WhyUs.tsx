@@ -17,19 +17,19 @@ export const WhyUs: React.FC = () => {
   }, []);
 
   const FeatureRow = ({ icon: Icon, title, desc, free, highlight = false }: any) => (
-      <div className={`p-5 rounded-lg mb-2 flex items-center gap-4 transition-colors ${highlight ? 'bg-[#1DB954]/10 border border-[#1DB954]/20' : 'bg-[#181818] hover:bg-[#202020]'}`}>
-          <div className={`p-3 rounded-full shrink-0 ${highlight ? 'bg-[#1DB954] text-black' : 'bg-[#2A2A2A] text-[#1DB954]'}`}>
+      <div className={`p-5 rounded-lg mb-2 flex items-center gap-4 transition-colors ${highlight ? 'bg-accent/10 border border-accent/20' : 'bg-[#181818] hover:bg-[#202020]'}`}>
+          <div className={`p-3 rounded-full shrink-0 ${highlight ? 'bg-accent text-black' : 'bg-[#2A2A2A] text-accent'}`}>
               <Icon size={24} />
           </div>
           <div className="flex-1 min-w-0">
-              <h3 className={`font-bold text-[15px] ${highlight ? 'text-[#1DB954]' : 'text-white'}`}>{title}</h3>
+              <h3 className={`font-bold text-[15px] ${highlight ? 'text-accent' : 'text-white'}`}>{title}</h3>
               <p className="text-sm text-[#B3B3B3] leading-snug">{desc}</p>
           </div>
           <div className="shrink-0 pl-2">
               {free ? (
                   <div className="flex flex-col items-center">
-                      <CheckCircle2 size={24} className="text-[#1DB954]" />
-                      <span className="text-[10px] font-bold text-[#1DB954] mt-1">FREE</span>
+                      <CheckCircle2 size={24} className="text-accent" />
+                      <span className="text-[10px] font-bold text-accent mt-1">FREE</span>
                   </div>
               ) : (
                   <div className="flex flex-col items-center opacity-50">
@@ -71,7 +71,7 @@ export const WhyUs: React.FC = () => {
            
            {/* Hero */}
            <div className="flex flex-col items-center text-center gap-4 py-8 animate-in slide-in-from-bottom-4 duration-500">
-               <div className="w-20 h-20 bg-[#1DB954] rounded-full flex items-center justify-center shadow-[0_0_40px_rgba(29,185,84,0.4)] mb-2">
+               <div className="w-20 h-20 bg-accent rounded-full flex items-center justify-center shadow-[0_0_40px_rgba(var(--theme-color-rgb),0.4)] mb-2">
                    <Rocket size={40} className="text-black" />
                </div>
                <h1 className="text-4xl font-black tracking-tight leading-none">
@@ -86,7 +86,7 @@ export const WhyUs: React.FC = () => {
            <div className="flex flex-col gap-4">
                <div className="flex items-center justify-between px-2 mb-2">
                    <span className="text-xs font-bold uppercase tracking-widest text-white/50">Features</span>
-                   <span className="text-xs font-bold uppercase tracking-widest text-[#1DB954]">Vibestream</span>
+                   <span className="text-xs font-bold uppercase tracking-widest text-accent">Vibestream</span>
                </div>
 
                <FeatureRow 

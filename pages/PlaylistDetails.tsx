@@ -148,7 +148,7 @@ export const PlaylistDetails: React.FC = () => {
               {isScrolled && viewPlaylist.songs.length > 0 && (
                    <button 
                     onClick={() => playSong(viewPlaylist.songs[0], viewPlaylist.songs)}
-                    className="w-10 h-10 rounded-full bg-[#1DB954] flex items-center justify-center hover:scale-105 transition-transform text-black shadow-md"
+                    className="w-10 h-10 rounded-full bg-accent flex items-center justify-center hover:scale-105 transition-transform text-black shadow-md"
                    >
                        {isPlaying && viewPlaylist.songs.some(s => s.id === currentSong?.id) ? <Pause size={20} fill="black" /> : <Play size={20} fill="black" className="ml-0.5" />}
                    </button>
@@ -229,7 +229,7 @@ export const PlaylistDetails: React.FC = () => {
          {viewPlaylist.songs.length > 0 && (
              <button 
                 onClick={() => playSong(viewPlaylist.songs[0], viewPlaylist.songs)}
-                className="w-14 h-14 bg-[#1DB954] hover:bg-[#1ed760] rounded-full flex items-center justify-center hover:scale-105 active:scale-95 transition-all shadow-[0_8px_20px_rgba(0,0,0,0.3)]"
+                className="w-14 h-14 bg-accent hover:brightness-110 rounded-full flex items-center justify-center hover:scale-105 active:scale-95 transition-all shadow-[0_8px_20px_rgba(0,0,0,0.3)]"
              >
                  {isPlaying && viewPlaylist.songs.some(s => s.id === currentSong?.id) ? (
                      <Pause size={28} fill="black" className="text-black" />
@@ -288,7 +288,7 @@ export const PlaylistDetails: React.FC = () => {
                                 <img src="https://open.spotifycdn.com/cdn/images/equaliser-animated-green.f93a2ef4.gif" className="w-3 h-3" alt="playing" />
                             ) : (
                                 <>
-                                    <span className={`block group-hover:hidden ${isCurrent ? 'text-[#1DB954]' : ''}`}>{index + 1}</span>
+                                    <span className={`block group-hover:hidden ${isCurrent ? 'text-accent' : ''}`}>{index + 1}</span>
                                     <Play size={12} fill="white" className="hidden group-hover:block text-white" />
                                 </>
                             )}
@@ -298,7 +298,7 @@ export const PlaylistDetails: React.FC = () => {
                         <div className="flex items-center gap-3 overflow-hidden">
                             <img src={getImageUrl(song.image)} alt="" className="w-10 h-10 rounded-[4px] object-cover shadow-sm shrink-0" />
                             <div className="flex flex-col truncate">
-                                <span className={`font-medium text-[15px] truncate ${isCurrent ? 'text-[#1DB954]' : 'text-white'}`}>{song.name}</span>
+                                <span className={`font-medium text-[15px] truncate ${isCurrent ? 'text-accent' : 'text-white'}`}>{song.name}</span>
                                 <span className="text-xs text-[#B3B3B3] group-hover:text-white truncate transition-colors">{song.artists?.primary?.[0]?.name || "Unknown"}</span>
                             </div>
                         </div>

@@ -34,11 +34,11 @@ export const FriendsActivity: React.FC = () => {
                         
                         {/* Status Indicators */}
                         {friend.status === 'listening' ? (
-                             <div className="absolute -top-1 -right-1 bg-[#1DB954] text-black w-4 h-4 rounded-full border-2 border-black flex items-center justify-center">
+                             <div className="absolute -top-1 -right-1 bg-accent text-black w-4 h-4 rounded-full border-2 border-black flex items-center justify-center">
                                  <Headphones size={8} fill="black" />
                              </div>
                         ) : friend.status === 'online' && (
-                             <div className="absolute bottom-0 right-0 w-3 h-3 bg-[#1DB954] rounded-full border-2 border-black"></div>
+                             <div className="absolute bottom-0 right-0 w-3 h-3 bg-accent rounded-full border-2 border-black"></div>
                         )}
                     </div>
 
@@ -50,7 +50,7 @@ export const FriendsActivity: React.FC = () => {
                         
                         {friend.status === 'listening' && friend.currentSong ? (
                             <div className="flex flex-col">
-                                <span className="text-[#1DB954] text-xs truncate font-medium">{friend.currentSong.name}</span>
+                                <span className="text-accent text-xs truncate font-medium">{friend.currentSong.name}</span>
                                 <div className="flex items-center gap-1 text-[#B3B3B3] text-[10px] mt-0.5">
                                     <span className="truncate">• {friend.currentSong.artists.primary[0]?.name}</span>
                                 </div>
@@ -65,9 +65,9 @@ export const FriendsActivity: React.FC = () => {
                     {/* Equalizer Animation if listening */}
                     {friend.status === 'listening' && (
                         <div className="flex gap-[2px] h-3 items-end opacity-0 group-hover:opacity-100 transition-opacity">
-                            <div className="w-[3px] bg-[#1DB954] animate-[bounce_1s_infinite] h-2"></div>
-                            <div className="w-[3px] bg-[#1DB954] animate-[bounce_1.2s_infinite] h-3"></div>
-                            <div className="w-[3px] bg-[#1DB954] animate-[bounce_0.8s_infinite] h-1.5"></div>
+                            <div className="w-[3px] bg-accent animate-[bounce_1s_infinite] h-2"></div>
+                            <div className="w-[3px] bg-accent animate-[bounce_1.2s_infinite] h-3"></div>
+                            <div className="w-[3px] bg-accent animate-[bounce_0.8s_infinite] h-1.5"></div>
                         </div>
                     )}
                 </div>

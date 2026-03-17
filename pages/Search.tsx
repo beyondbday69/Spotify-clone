@@ -149,7 +149,7 @@ export const Search: React.FC = () => {
                     onChange={(e) => setQuery(e.target.value)}
                     onKeyDown={handleKeywordSearch}
                     placeholder="What do you want to listen to?" 
-                    className="w-full bg-white text-black pl-12 pr-12 py-3.5 rounded-full font-bold text-base placeholder-black/60 focus:outline-none focus:ring-4 focus:ring-[#1DB954]/40 transition-all shadow-md"
+                    className="w-full bg-white text-black pl-12 pr-12 py-3.5 rounded-full font-bold text-base placeholder-black/60 focus:outline-none focus:ring-4 focus:ring-accent/40 transition-all shadow-md"
                     autoFocus={false}
                  />
                  {query && (
@@ -254,14 +254,14 @@ export const Search: React.FC = () => {
                                             </div>
                                         </div>
                                         <div className="flex flex-col flex-1 min-w-0">
-                                            <span className={`font-bold text-[15px] truncate ${isLiked ? 'text-[#1DB954]' : 'text-white'}`}>{song.name}</span>
+                                            <span className={`font-bold text-[15px] truncate ${isLiked ? 'text-accent' : 'text-white'}`}>{song.name}</span>
                                             <span className="text-sm text-[#B3B3B3] truncate">{song.artists.primary[0]?.name}</span>
                                         </div>
                                         <button 
                                             onClick={(e) => { e.stopPropagation(); toggleLike(song); }}
                                             className="p-2 opacity-0 group-hover:opacity-100 transition-opacity"
                                         >
-                                            {isLiked ? <CheckCircle2 size={24} className="text-[#1DB954]" /> : <PlusCircle size={24} className="text-[#B3B3B3] hover:text-white" />}
+                                            {isLiked ? <CheckCircle2 size={24} className="text-accent" /> : <PlusCircle size={24} className="text-[#B3B3B3] hover:text-white" />}
                                         </button>
                                         <div className="text-xs text-[#B3B3B3] font-mono w-10 text-right">
                                             {(parseInt(song.duration) / 60).toFixed(0)}:{(parseInt(song.duration) % 60).toString().padStart(2, '0')}

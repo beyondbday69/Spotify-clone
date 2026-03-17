@@ -125,7 +125,23 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 };
 
 const App: React.FC = () => {
-  const { setOfflineMode } = usePlayerStore();
+  const { setOfflineMode, themeColor } = usePlayerStore();
+
+  useEffect(() => {
+    // Update Theme Color CSS Variables
+    if (themeColor) {
+      document.documentElement.style.setProperty('--theme-color', themeColor);
+      
+      // Convert hex to rgb for opacity support
+      const hex = themeColor.replace('#', '');
+      if (hex.length === 6) {
+        const r = parseInt(hex.substring(0, 2), 16);
+        const g = parseInt(hex.substring(2, 4), 16);
+        const b = parseInt(hex.substring(4, 6), 16);
+        document.documentElement.style.setProperty('--theme-color-rgb', `${r} ${g} ${b}`);
+      }
+    }
+  }, [themeColor]);
 
   useEffect(() => {
     const handleOnline = () => setOfflineMode(false);

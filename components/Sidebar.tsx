@@ -48,15 +48,15 @@ export const Sidebar: React.FC = () => {
         <NavLink to="/why-us" className={({ isActive }) => `flex items-center gap-5 px-5 py-3 rounded-full transition-all duration-200 group ${isActive ? 'bg-white/10 text-white font-bold' : 'text-[#B3B3B3] hover:text-white hover:bg-white/5 font-medium'}`}>
           {({ isActive }) => (
              <>
-               <Rocket size={24} className={isActive ? "text-[#1DB954]" : ""} />
-               <span className={isActive ? "text-[#1DB954]" : ""}>Why us?</span>
+               <Rocket size={24} className={isActive ? "text-accent" : ""} />
+               <span className={isActive ? "text-accent" : ""}>Why us?</span>
              </>
           )}
         </NavLink>
       </div>
 
       {/* Library Block */}
-      <div className="bg-[#121212] rounded-xl flex-1 flex flex-col overflow-hidden">
+      <div className="bg-[#121212] rounded-xl flex-1 flex flex-col overflow-hidden m-0 h-[64px]">
         {/* Library Header */}
         <div className="flex items-center justify-between px-6 py-4 z-10">
           <div 
@@ -105,7 +105,7 @@ export const Sidebar: React.FC = () => {
                 <div className="flex flex-col overflow-hidden">
                     <span className="text-white font-medium truncate text-[15px]">Liked Songs</span>
                     <div className="flex items-center gap-1 text-sm text-[#B3B3B3] truncate">
-                        <span className="text-[#1DB954] -rotate-45">📌</span>
+                        <span className="text-accent -rotate-45">📌</span>
                         <span>Auto Playlist</span>
                     </div>
                 </div>
@@ -147,7 +147,7 @@ export const Sidebar: React.FC = () => {
                          {currentUser.image ? (
                              <img src={currentUser.image} alt={currentUser.name} className="w-9 h-9 rounded-full object-cover" />
                          ) : (
-                             <div className="w-9 h-9 rounded-full bg-[#1DB954] flex items-center justify-center text-black font-bold">
+                             <div className="w-9 h-9 rounded-full bg-accent flex items-center justify-center text-black font-bold">
                                 {currentUser.name.charAt(0).toUpperCase()}
                              </div>
                          )}

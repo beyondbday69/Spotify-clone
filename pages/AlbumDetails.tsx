@@ -42,7 +42,7 @@ export const AlbumDetails: React.FC = () => {
       <div className="px-6 md:px-8 py-4 bg-black/20 backdrop-blur-sm flex items-center gap-8">
          <button 
             onClick={() => songs.length > 0 && playSong(songs[0], songs)}
-            className="bg-[#1DB954] hover:bg-[#1ed760] rounded-full p-4 hover:scale-105 transition-transform flex items-center justify-center shadow-lg"
+            className="bg-accent hover:brightness-110 rounded-full p-4 hover:scale-105 transition-transform flex items-center justify-center shadow-lg"
          >
              <Play size={28} fill="black" className="ml-1 text-black" />
          </button>

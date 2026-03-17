@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { usePlayerStore } from '../store/playerStore';
 import { uploadToCloudinary } from '../services/api';
-import { ArrowLeft, Camera, Loader2, LogOut, Cloud, SignalHigh, SignalMedium, SignalLow, Music2, Users, ChevronRight, Mail, Shield, RotateCcw, Youtube, Library, Globe, Layers, DownloadCloud } from 'lucide-react';
+import { ArrowLeft, Camera, Loader2, LogOut, Cloud, SignalHigh, SignalMedium, SignalLow, Music2, Users, ChevronRight, Mail, Shield, RotateCcw, Youtube, Library, Globe, Layers, DownloadCloud, Palette } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 const containerVariants = {
@@ -35,7 +35,7 @@ const heroVariants = {
 };
 
 export const Profile: React.FC = () => {
-  const { currentUser, updateUserProfile, logoutUser, streamingQuality, setStreamingQuality, favoriteArtists, musicSource, setMusicSource } = usePlayerStore();
+  const { currentUser, updateUserProfile, logoutUser, streamingQuality, setStreamingQuality, favoriteArtists, musicSource, setMusicSource, themeColor, setThemeColor } = usePlayerStore();
   const navigate = useNavigate();
 
   const [name, setName] = useState('');
@@ -198,7 +198,7 @@ export const Profile: React.FC = () => {
                     initial={{ scale: 0 }}
                     animate={{ scale: 1 }}
                     transition={{ delay: 0.5, type: "tween", ease: "backOut" }}
-                    className="absolute bottom-2 right-4 bg-[#1DB954] text-black p-2 rounded-full border-4 border-[#121212]"
+                    className="absolute bottom-2 right-4 bg-accent text-black p-2 rounded-full border-4 border-[#121212]"
                  >
                     <Cloud size={16} />
                  </motion.div>
@@ -238,7 +238,7 @@ export const Profile: React.FC = () => {
               {/* Account Card */}
               <motion.div variants={itemVariants} className="bg-[#181818] p-5 rounded-lg">
                    <h3 className="text-lg font-bold mb-4 flex items-center gap-2">
-                      <Shield size={20} className="text-[#1DB954]"/> Account
+                      <Shield size={20} className="text-accent"/> Account
                    </h3>
                    <div className="flex items-center gap-4 text-sm">
                       <div className="p-3 bg-[#2A2A2A] rounded-full text-[#B3B3B3]">
@@ -260,7 +260,7 @@ export const Profile: React.FC = () => {
               >
                    <div className="flex items-center justify-between mb-2">
                         <h3 className="text-lg font-bold flex items-center gap-2">
-                            <Users size={20} className="text-[#1DB954]"/> Taste Profile
+                            <Users size={20} className="text-accent"/> Taste Profile
                         </h3>
                         <ChevronRight className="text-[#555] group-hover:text-white transition-colors" />
                    </div>
@@ -277,14 +277,14 @@ export const Profile: React.FC = () => {
                                +{favoriteArtists.length - 5}
                            </div>
                        )}
-                       {favoriteArtists.length === 0 && <span className="text-sm font-bold text-[#1DB954]">Select Artists</span>}
+                       {favoriteArtists.length === 0 && <span className="text-sm font-bold text-accent">Select Artists</span>}
                    </div>
               </motion.div>
 
                {/* Music Source Selection */}
                <motion.div variants={itemVariants} className="bg-[#181818] p-5 rounded-lg">
                    <h3 className="text-lg font-bold mb-4 flex items-center gap-2">
-                      <Globe size={20} className="text-[#1DB954]"/> Music Source
+                      <Globe size={20} className="text-accent"/> Music Source
                    </h3>
                    <div className="flex flex-col gap-2">
                       {[
@@ -298,18 +298,18 @@ export const Profile: React.FC = () => {
                             onClick={() => setMusicSource(opt.val as any)}
                             className={`flex items-center p-3 rounded-md transition-all ${
                                 musicSource === opt.val 
-                                ? 'bg-[#2A2A2A] ring-1 ring-[#1DB954]' 
+                                ? 'bg-[#2A2A2A] ring-1 ring-accent' 
                                 : 'hover:bg-[#2A2A2A]/50'
                             }`}
                           >
-                              <div className={`p-2 rounded-full mr-4 ${streamingQuality === opt.val ? 'text-[#1DB954]' : 'text-[#555]'}`}>
+                              <div className={`p-2 rounded-full mr-4 ${streamingQuality === opt.val ? 'text-accent' : 'text-[#555]'}`}>
                                   <opt.Icon size={20} />
                               </div>
                               <div className="flex flex-col items-start flex-1">
                                   <span className={`text-sm font-bold ${musicSource === opt.val ? 'text-white' : 'text-white/70'}`}>{opt.label}</span>
                                   <span className="text-xs text-[#555]">{opt.sub}</span>
                               </div>
-                              {musicSource === opt.val && <div className="w-3 h-3 bg-[#1DB954] rounded-full shadow-[0_0_10px_#1DB954]"></div>}
+                              {musicSource === opt.val && <div className="w-3 h-3 bg-accent rounded-full shadow-[0_0_10px_var(--theme-color)]"></div>}
                           </button>
                       ))}
                    </div>
@@ -318,7 +318,7 @@ export const Profile: React.FC = () => {
               {/* Audio Quality */}
               <motion.div variants={itemVariants} className="bg-[#181818] p-5 rounded-lg">
                    <h3 className="text-lg font-bold mb-4 flex items-center gap-2">
-                      <Music2 size={20} className="text-[#1DB954]"/> Audio Quality
+                      <Music2 size={20} className="text-accent"/> Audio Quality
                    </h3>
                    <div className="flex flex-col gap-2">
                       {[
@@ -332,18 +332,52 @@ export const Profile: React.FC = () => {
                             onClick={() => setStreamingQuality(opt.val as any)}
                             className={`flex items-center p-3 rounded-md transition-all ${
                                 streamingQuality === opt.val 
-                                ? 'bg-[#2A2A2A] ring-1 ring-[#1DB954]' 
+                                ? 'bg-[#2A2A2A] ring-1 ring-accent' 
                                 : 'hover:bg-[#2A2A2A]/50'
                             }`}
                           >
-                              <div className={`p-2 rounded-full mr-4 ${streamingQuality === opt.val ? 'text-[#1DB954]' : 'text-[#555]'}`}>
+                              <div className={`p-2 rounded-full mr-4 ${streamingQuality === opt.val ? 'text-accent' : 'text-[#555]'}`}>
                                   <opt.Icon size={20} />
                               </div>
                               <div className="flex flex-col items-start flex-1">
                                   <span className={`text-sm font-bold ${streamingQuality === opt.val ? 'text-white' : 'text-white/70'}`}>{opt.label}</span>
                                   <span className="text-xs text-[#555]">{opt.sub}</span>
                               </div>
-                              {streamingQuality === opt.val && <div className="w-3 h-3 bg-[#1DB954] rounded-full shadow-[0_0_10px_#1DB954]"></div>}
+                              {streamingQuality === opt.val && <div className="w-3 h-3 bg-accent rounded-full shadow-[0_0_10px_var(--theme-color)]"></div>}
+                          </button>
+                      ))}
+                   </div>
+              </motion.div>
+
+              {/* Theme Color */}
+              <motion.div variants={itemVariants} className="bg-[#181818] p-5 rounded-lg">
+                   <h3 className="text-lg font-bold mb-4 flex items-center gap-2">
+                      <Palette size={20} className="text-accent"/> Theme Color
+                   </h3>
+                   <div className="flex flex-wrap gap-3">
+                      {[
+                          { color: '#1DB954', name: 'Spotify Green' },
+                          { color: '#1D4ED8', name: 'Blue' },
+                          { color: '#E11D48', name: 'Rose' },
+                          { color: '#D97706', name: 'Amber' },
+                          { color: '#7C3AED', name: 'Purple' },
+                          { color: '#06B6D4', name: 'Cyan' },
+                          { color: '#EC4899', name: 'Pink' },
+                          { color: '#F97316', name: 'Orange' },
+                      ].map((theme) => (
+                          <button
+                            key={theme.color}
+                            type="button"
+                            onClick={() => setThemeColor(theme.color)}
+                            className={`w-12 h-12 rounded-full transition-all flex items-center justify-center ${
+                                themeColor === theme.color 
+                                ? 'ring-2 ring-white scale-110 shadow-lg' 
+                                : 'hover:scale-105 hover:ring-2 hover:ring-white/50'
+                            }`}
+                            style={{ backgroundColor: theme.color }}
+                            title={theme.name}
+                          >
+                              {themeColor === theme.color && <div className="w-4 h-4 bg-white rounded-full shadow-sm"></div>}
                           </button>
                       ))}
                    </div>
@@ -352,12 +386,12 @@ export const Profile: React.FC = () => {
               {/* App Updates Section */}
               <motion.div variants={itemVariants} className="bg-[#181818] p-5 rounded-lg">
                    <h3 className="text-lg font-bold mb-4 flex items-center gap-2">
-                      <DownloadCloud size={20} className="text-[#1DB954]"/> App Updates
+                      <DownloadCloud size={20} className="text-accent"/> App Updates
                    </h3>
                    <div className="flex items-center justify-between bg-[#2A2A2A] p-4 rounded-md">
                         <div className="flex flex-col gap-1">
                             <span className="text-white font-bold text-sm">Version {currentVersion}</span>
-                            <span className={`text-xs ${updateAvailable ? 'text-[#1DB954]' : 'text-[#B3B3B3]'}`}>
+                            <span className={`text-xs ${updateAvailable ? 'text-accent' : 'text-[#B3B3B3]'}`}>
                                 {updateAvailable ? '✨ New version 2.5.0 available' : 'You are up to date'}
                             </span>
                         </div>
@@ -367,7 +401,7 @@ export const Profile: React.FC = () => {
                             disabled={checkingUpdate}
                             className={`px-4 py-2 rounded-full font-bold text-xs md:text-sm transition-all flex items-center gap-2 ${
                                 updateAvailable 
-                                ? 'bg-[#1DB954] text-black hover:scale-105 shadow-lg shadow-green-500/20' 
+                                ? 'bg-accent text-black hover:scale-105 shadow-lg shadow-green-500/20' 
                                 : 'bg-white/10 text-white hover:bg-white/20'
                             }`}
                         >

@@ -43,7 +43,7 @@ export const DownloadProgress: React.FC = () => {
                             cy="24"
                             r={radius}
                             fill="transparent"
-                            stroke={isComplete ? "#1DB954" : "#1DB954"}
+                            stroke={isComplete ? "var(--theme-color)" : "var(--theme-color)"}
                             strokeWidth="3"
                             strokeDasharray={circumference}
                             animate={{ strokeDashoffset }}
@@ -60,7 +60,7 @@ export const DownloadProgress: React.FC = () => {
                                     key="check"
                                     initial={{ scale: 0 }}
                                     animate={{ scale: 1 }}
-                                    className="w-full h-full bg-[#1DB954] flex items-center justify-center"
+                                    className="w-full h-full bg-accent flex items-center justify-center"
                                 >
                                     <Check size={20} className="text-black" strokeWidth={3} />
                                 </motion.div>

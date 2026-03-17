@@ -51,7 +51,7 @@ export const Library: React.FC = () => {
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
         onClick={() => setFilter(label as any)}
-        className={`px-5 py-2 rounded-full text-xs font-bold border border-transparent transition-colors shadow-sm ${filter === label ? 'bg-[#1DB954] text-black' : 'bg-[#2A2A2A] text-white hover:bg-[#3E3E3E]'}`}
+        className={`px-5 py-2 rounded-full text-xs font-bold border border-transparent transition-colors shadow-sm ${filter === label ? 'bg-accent text-black' : 'bg-[#2A2A2A] text-white hover:bg-[#3E3E3E]'}`}
       >
           {label}
       </motion.button>
@@ -75,7 +75,7 @@ export const Library: React.FC = () => {
                  whileHover={{ scale: 1.1 }}
                  whileTap={{ scale: 0.9 }}
                  onClick={handleProfileClick}
-                 className="w-9 h-9 rounded-full bg-[#1DB954] flex items-center justify-center font-bold text-black text-xs cursor-pointer overflow-hidden border border-black"
+                 className="w-9 h-9 rounded-full bg-accent flex items-center justify-center font-bold text-black text-xs cursor-pointer overflow-hidden border border-black"
               >
                   {currentUser && currentUser.image ? (
                      <img src={currentUser.image} alt="Profile" className="w-full h-full object-cover" />
@@ -152,9 +152,9 @@ export const Library: React.FC = () => {
                   <div className="flex flex-col flex-1 min-w-0">
                       <span className="text-white font-bold text-[16px] truncate group-hover:text-white">Liked Songs</span>
                       <div className="flex items-center gap-1.5 text-[#B3B3B3] text-sm font-medium">
-                           <Pin size={12} fill="#1DB954" className="text-[#1DB954] rotate-45" />
+                           <Pin size={12} fill="var(--theme-color)" className="text-accent rotate-45" />
                            <span>Playlist • {isOfflineMode ? downloadedLikedSongsCount : likedSongs.length} songs</span>
-                           {isOfflineMode && <CheckCircle2 size={12} className="text-[#1DB954]" />}
+                           {isOfflineMode && <CheckCircle2 size={12} className="text-accent" />}
                       </div>
                   </div>
               </motion.div>
@@ -181,7 +181,7 @@ export const Library: React.FC = () => {
                     <span className="text-white font-bold text-[16px] truncate">{playlist.title}</span>
                     <div className="flex items-center gap-1 text-[#B3B3B3] text-sm font-medium truncate">
                         <span>Playlist • {playlist.subtitle}</span>
-                        {isOfflineMode && <CheckCircle2 size={12} className="text-[#1DB954]" />}
+                        {isOfflineMode && <CheckCircle2 size={12} className="text-accent" />}
                     </div>
                 </div>
              </motion.div>

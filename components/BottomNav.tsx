@@ -22,7 +22,10 @@ export const BottomNav: React.FC = () => {
       transition={{ type: "tween", ease: "easeInOut", duration: 0.3 }}
       className={`xl:hidden fixed bottom-4 md:bottom-6 left-0 z-[160] flex justify-center pointer-events-none transition-all duration-300 right-0 ${rightOffset}`}
     >
-       <div className="bg-[#282828]/95 backdrop-blur-md pointer-events-auto rounded-full px-8 py-3 flex items-center gap-8 shadow-2xl border border-white/10">
+       <div 
+          className="bg-[#282828]/95 backdrop-blur-md pointer-events-auto rounded-full flex items-center gap-8 shadow-2xl border-white/10 w-[500px] pl-[20px] pr-[3px] pb-[6px] pt-[13px] ml-0 border-[1.5px] font-sans font-normal not-italic no-underline text-justify"
+          style={{ borderStyle: 'inset' }}
+       >
           <NavLink to="/" className="flex flex-col items-center gap-1.5 min-w-[64px]">
             {({ isActive }) => (
               <>

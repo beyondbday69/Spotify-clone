@@ -4,7 +4,8 @@ import { X, Send, PlayCircle, StopCircle, Music, Radio, ChevronDown } from 'luci
 import { motion, AnimatePresence } from 'framer-motion';
 
 export const ChatWindow: React.FC = () => {
-  const { activeChatFriendId, friends, openChat, sendMessage, partySession, startParty, stopParty, currentUser } = usePlayerStore();
+  const { activeChatFriendId, friends, openChat, sendMessage, partySession, startParty, stopParty, currentUser, themeColor } = usePlayerStore();
+  const themeHex = themeColor ? themeColor.replace('#', '') : '1DB954';
   const [text, setText] = useState('');
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
@@ -42,9 +43,9 @@ export const ChatWindow: React.FC = () => {
         <div className="bg-[#181818]/95 backdrop-blur-md p-3 flex items-center justify-between border-b border-[#282828]">
             <div className="flex items-center gap-3">
                 <div className="relative">
-                    <img src={friend.image || `https://ui-avatars.com/api/?name=${friend.name}&background=1DB954&color=fff`} className="w-10 h-10 rounded-full object-cover shadow-md" alt="" />
+                    <img src={friend.image || `https://ui-avatars.com/api/?name=${friend.name}&background=${themeHex}&color=fff`} className="w-10 h-10 rounded-full object-cover shadow-md" alt="" />
                     {friend.status === 'listening' ? (
-                        <div className="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 bg-[#1DB954] rounded-full border-2 border-[#121212] flex items-center justify-center">
+                        <div className="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 bg-accent rounded-full border-2 border-[#121212] flex items-center justify-center">
                             <Music size={8} fill="black" className="text-black" />
                         </div>
                     ) : friend.status === 'online' ? (
@@ -54,7 +55,7 @@ export const ChatWindow: React.FC = () => {
                 <div className="flex flex-col">
                     <span className="text-white font-bold text-sm leading-tight">{friend.name}</span>
                     {friend.status === 'listening' && friend.currentSong ? (
-                        <span className="text-[11px] text-[#1DB954] flex items-center gap-1 font-medium truncate max-w-[150px]">
+                        <span className="text-[11px] text-accent flex items-center gap-1 font-medium truncate max-w-[150px]">
                             Listening to {friend.currentSong.name}
                         </span>
                     ) : (
@@ -67,7 +68,7 @@ export const ChatWindow: React.FC = () => {
             <div className="flex items-center gap-1">
                  <button 
                     onClick={isHostingParty ? stopParty : startParty}
-                    className={`p-2 rounded-full transition-all ${isHostingParty ? 'text-[#1DB954] bg-[#1DB954]/10' : 'text-[#B3B3B3] hover:text-white hover:bg-[#282828]'}`}
+                    className={`p-2 rounded-full transition-all ${isHostingParty ? 'text-accent bg-accent/10' : 'text-[#B3B3B3] hover:text-white hover:bg-[#282828]'}`}
                     title="Listen Together"
                 >
                     <Radio size={20} className={isHostingParty ? "animate-pulse" : ""} />
@@ -93,7 +94,7 @@ export const ChatWindow: React.FC = () => {
                          <div 
                             className={`max-w-[75%] px-3.5 py-2 text-[13px] shadow-sm leading-relaxed relative group ${
                                 isMe 
-                                ? 'bg-[#1DB954] text-black rounded-2xl rounded-tr-sm' 
+                                ? 'bg-accent text-black rounded-2xl rounded-tr-sm' 
                                 : 'bg-[#2A2A2A] text-white rounded-2xl rounded-tl-sm'
                             }`}
                          >
@@ -119,7 +120,7 @@ export const ChatWindow: React.FC = () => {
             <button 
                 type="submit" 
                 disabled={!text.trim()} 
-                className="p-2.5 bg-[#1DB954] text-black rounded-full hover:scale-105 active:scale-95 disabled:opacity-50 disabled:scale-100 transition-all shadow-lg"
+                className="p-2.5 bg-accent text-black rounded-full hover:scale-105 active:scale-95 disabled:opacity-50 disabled:scale-100 transition-all shadow-lg"
             >
                 <Send size={18} fill="black" className="ml-0.5" />
             </button>

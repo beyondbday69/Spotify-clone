@@ -71,7 +71,7 @@ export const SongCard: React.FC<SongCardProps> = ({ item, onPlay, subtitle, roun
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
             onClick={handlePlayClick}
-            className="absolute bottom-2 right-2 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300 bg-[#1DB954] text-black rounded-full p-3 shadow-xl flex items-center justify-center z-20"
+            className="absolute bottom-2 right-2 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300 bg-accent text-black rounded-full p-3 shadow-xl flex items-center justify-center z-20"
           >
             <Play size={20} fill="black" className="ml-1" />
           </motion.button>

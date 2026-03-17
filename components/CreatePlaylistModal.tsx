@@ -121,7 +121,7 @@ export const CreatePlaylistModal: React.FC<CreatePlaylistModalProps> = ({ onClos
         <div className="flex items-center justify-between p-4 border-b border-white/5 bg-[#121212]">
             <h2 className="text-xl font-bold text-white flex items-center gap-2">
                 Create Playlist
-                {selectedSeed && <Sparkles size={16} className="text-[#1DB954]" />}
+                {selectedSeed && <Sparkles size={16} className="text-accent" />}
             </h2>
             <button onClick={onClose} className="p-2 hover:bg-white/10 rounded-full text-white/70 hover:text-white transition-colors">
                 <X size={20} />
@@ -189,9 +189,9 @@ export const CreatePlaylistModal: React.FC<CreatePlaylistModalProps> = ({ onClos
                 </div>
 
                 {/* AI Smart Fill Section */}
-                <div className="bg-gradient-to-r from-[#1DB954]/10 to-transparent p-4 rounded-xl border border-[#1DB954]/20 relative">
+                <div className="bg-gradient-to-r from-accent/10 to-transparent p-4 rounded-xl border border-accent/20 relative">
                     <div className="flex items-center gap-2 mb-3">
-                        <Sparkles size={18} className="text-[#1DB954]" />
+                        <Sparkles size={18} className="text-accent" />
                         <span className="text-sm font-bold text-white">AI Smart Fill</span>
                     </div>
                     
@@ -203,7 +203,7 @@ export const CreatePlaylistModal: React.FC<CreatePlaylistModalProps> = ({ onClos
                                 value={seedQuery}
                                 onChange={(e) => setSeedQuery(e.target.value)}
                                 placeholder="Pick a song to auto-fill playlist..."
-                                className="w-full bg-[#121212] text-white pl-9 pr-4 py-2.5 rounded-lg text-sm border border-white/10 focus:border-[#1DB954] focus:outline-none transition-colors"
+                                className="w-full bg-[#121212] text-white pl-9 pr-4 py-2.5 rounded-lg text-sm border border-white/10 focus:border-accent focus:outline-none transition-colors"
                             />
                             {isSearchingSeed && <Loader2 size={16} className="animate-spin absolute right-3 top-1/2 -translate-y-1/2 text-white/50" />}
                             
@@ -227,12 +227,12 @@ export const CreatePlaylistModal: React.FC<CreatePlaylistModalProps> = ({ onClos
                             )}
                         </div>
                     ) : (
-                        <div className="flex items-center justify-between bg-[#1DB954]/20 p-2 rounded-lg border border-[#1DB954]/30">
+                        <div className="flex items-center justify-between bg-accent/20 p-2 rounded-lg border border-accent/30">
                             <div className="flex items-center gap-3">
                                 <img src={getImageUrl(selectedSeed.image)} className="w-10 h-10 rounded object-cover" alt="" />
                                 <div className="flex flex-col">
                                     <span className="text-sm font-bold text-white">{selectedSeed.name}</span>
-                                    <span className="text-xs text-[#1DB954]">+ Similar songs will be added</span>
+                                    <span className="text-xs text-accent">+ Similar songs will be added</span>
                                 </div>
                             </div>
                             <button onClick={() => { setSelectedSeed(null); setSeedQuery(''); }} className="p-1 hover:bg-black/20 rounded-full">

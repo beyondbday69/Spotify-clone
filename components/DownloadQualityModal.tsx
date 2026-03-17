@@ -85,7 +85,7 @@ export const DownloadQualityModal: React.FC<DownloadQualityModalProps> = ({ song
             <div className="p-8 pt-4">
                 {isLoading ? (
                     <div className="flex flex-col items-center justify-center py-10 gap-4">
-                        <Loader2 size={40} className="animate-spin text-[#1DB954]" />
+                        <Loader2 size={40} className="animate-spin text-accent" />
                         <span className="text-white/60 font-medium">Fetching download link...</span>
                     </div>
                 ) : downloadOptions.length === 0 ? (
@@ -121,7 +121,7 @@ export const DownloadQualityModal: React.FC<DownloadQualityModalProps> = ({ song
                                                 </div>
                                             </div>
                                         </div>
-                                        <div className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center group-hover:bg-[#1DB954] group-hover:text-black transition-all">
+                                        <div className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center group-hover:bg-accent group-hover:text-black transition-all">
                                             <Download size={20} />
                                         </div>
                                     </div>

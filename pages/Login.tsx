@@ -192,7 +192,7 @@ export const Login: React.FC = () => {
                          id="remember"
                          checked={rememberMe}
                          onChange={(e) => setRememberMe(e.target.checked)}
-                         className="peer h-4 w-4 appearance-none rounded-[2px] border border-[#727272] bg-[#121212] checked:bg-[#1DB954] checked:border-[#1DB954] transition-all cursor-pointer"
+                         className="peer h-4 w-4 appearance-none rounded-[2px] border border-[#727272] bg-[#121212] checked:bg-accent checked:border-accent transition-all cursor-pointer"
                        />
                        <svg className="absolute w-3 h-3 text-black pointer-events-none opacity-0 peer-checked:opacity-100 left-0.5" viewBox="0 0 14 14" fill="none">
                            <path d="M3 8L6 11L11 3.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
@@ -206,20 +206,20 @@ export const Login: React.FC = () => {
                   disabled={loading}
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
-                  className="bg-[#1DB954] text-black font-bold text-base py-3.5 rounded-full mt-4 flex items-center justify-center uppercase tracking-widest shadow-lg hover:bg-[#1ed760] transition-colors"
+                  className="bg-accent text-black font-bold text-base py-3.5 rounded-full mt-4 flex items-center justify-center uppercase tracking-widest shadow-lg hover:brightness-110 transition-colors"
                >
                   {loading ? <Loader2 size={20} className="animate-spin" /> : 'Log In'}
                </motion.button>
             </motion.form>
 
             <motion.div variants={itemVariants} className="flex flex-col items-center gap-4 mt-2">
-                <a href="#" className="text-white font-bold underline hover:text-[#1DB954] text-sm transition-colors">Forgot your password?</a>
+                <a href="#" className="text-white font-bold underline hover:text-accent text-sm transition-colors">Forgot your password?</a>
                 
                 <div className="w-full h-[1px] bg-[#292929] my-2"></div>
                 
                 <div className="flex items-center gap-2 text-[#B3B3B3] text-sm md:text-base">
                     Don't have an account? 
-                    <Link to="/signup" className="text-white hover:text-[#1DB954] hover:underline font-bold transition-colors">Sign up for Spotify</Link>
+                    <Link to="/signup" className="text-white hover:text-accent hover:underline font-bold transition-colors">Sign up for Spotify</Link>
                 </div>
             </motion.div>
 

@@ -71,7 +71,7 @@ export const LikedSongs: React.FC = () => {
           {isScrolled && (
                <button 
                 onClick={handlePlayAll}
-                className="ml-auto w-10 h-10 rounded-full bg-[#1DB954] flex items-center justify-center hover:scale-105 transition-transform text-black shadow-md"
+                className="ml-auto w-10 h-10 rounded-full bg-accent flex items-center justify-center hover:scale-105 transition-transform text-black shadow-md"
                >
                    {isPlaying && likedSongs.some(s => s.id === currentSong?.id) ? <Pause size={20} fill="black" /> : <Play size={20} fill="black" className="ml-0.5" />}
                </button>
@@ -114,7 +114,7 @@ export const LikedSongs: React.FC = () => {
              <div className="flex items-center gap-6">
                  <button 
                     onClick={handlePlayAll}
-                    className="w-14 h-14 rounded-full bg-[#1DB954] flex items-center justify-center shadow-[0_8px_24px_rgba(29,185,84,0.3)] hover:scale-105 active:scale-95 transition-all group hover:bg-[#1ed760]"
+                    className="w-14 h-14 rounded-full bg-accent flex items-center justify-center shadow-[0_8px_24px_rgba(var(--theme-color-rgb),0.3)] hover:scale-105 active:scale-95 transition-all group hover:brightness-110"
                  >
                     {isPlaying && likedSongs.some(s => s.id === currentSong?.id) ? (
                         <Pause size={28} fill="black" className="text-black" />
@@ -185,7 +185,7 @@ export const LikedSongs: React.FC = () => {
                                     <img src="https://open.spotifycdn.com/cdn/images/equaliser-animated-green.f93a2ef4.gif" className="w-3 h-3" alt="playing" />
                                 ) : (
                                     <>
-                                        <span className={`block group-hover:hidden ${isCurrent ? 'text-[#1DB954]' : ''}`}>{index + 1}</span>
+                                        <span className={`block group-hover:hidden ${isCurrent ? 'text-accent' : ''}`}>{index + 1}</span>
                                         <Play size={12} fill="white" className="hidden group-hover:block text-white" />
                                     </>
                                 )}
@@ -195,7 +195,7 @@ export const LikedSongs: React.FC = () => {
                             <div className="flex items-center gap-3 overflow-hidden">
                                 <img src={getImageUrl(song.image)} alt="" className="w-10 h-10 rounded-[4px] shadow-sm object-cover shrink-0" />
                                 <div className="flex flex-col overflow-hidden">
-                                    <span className={`truncate font-medium text-[15px] ${isCurrent ? 'text-[#1DB954]' : 'text-white'}`}>{song.name}</span>
+                                    <span className={`truncate font-medium text-[15px] ${isCurrent ? 'text-accent' : 'text-white'}`}>{song.name}</span>
                                     <span className="text-sm text-[#B3B3B3] group-hover:text-white transition-colors truncate">
                                         {song.artists?.primary?.[0]?.name || "Unknown"}
                                     </span>

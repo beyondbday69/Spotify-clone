@@ -25,7 +25,7 @@
               surfaceHighlight: '#282828',
               primary: '#FFFFFF',
               secondary: '#B3B3B3',
-              accent: '#1DB954',
+              accent: 'rgb(var(--theme-color-rgb) / <alpha-value>)',
             },
             fontFamily: {
               sans: ['Figtree', 'sans-serif'],
@@ -75,6 +75,11 @@
         user-select: none;
         -webkit-user-select: none;
         overflow: hidden;
+      }
+      
+      :root {
+        --theme-color: #1DB954;
+        --theme-color-rgb: 29 185 84;
       }
       
       /* Allow text selection only on inputs */
