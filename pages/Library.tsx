@@ -133,7 +133,7 @@ export const Library: React.FC = () => {
 
       {/* List Content */}
       <motion.div 
-        className="flex flex-col gap-2"
+        className="flex flex-col md:grid md:grid-cols-2 gap-2"
         variants={containerVariants}
         initial="hidden"
         animate="visible"
