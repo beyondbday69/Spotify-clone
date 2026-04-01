@@ -133,10 +133,10 @@ export const Search: React.FC = () => {
   );
 
   return (
-    <div className="flex flex-col min-h-full pb-32 bg-black">
+    <div className="flex flex-col min-h-full pb-32 bg-transparent">
       
       {/* Search Header - Material 3 Style */}
-      <div className="sticky top-0 bg-black z-30 px-6 py-4">
+      <div className="sticky top-0 bg-black z-30 px-6 py-4 transition-colors duration-300">
          <div className="relative flex-1">
                  <SearchIcon className="absolute left-4 top-1/2 -translate-y-1/2 text-white/50" size={24} />
                  <input 
@@ -145,7 +145,7 @@ export const Search: React.FC = () => {
                     onChange={(e) => setQuery(e.target.value)}
                     onKeyDown={handleKeywordSearch}
                     placeholder="What do you want to listen to?" 
-                    className="w-full bg-[#111] text-white pl-12 pr-12 py-3 rounded-full font-medium text-base placeholder-white/50 focus:outline-none focus:ring-1 focus:ring-white/20 focus:bg-[#111] active:bg-[#111]"
+                    className="w-full bg-[#111] text-white pl-12 pr-12 py-3 rounded-full font-medium text-base placeholder-white/50 focus:outline-none focus:ring-1 focus:ring-white/20 transition-all"
                     autoFocus={false}
                  />
                  {query && (

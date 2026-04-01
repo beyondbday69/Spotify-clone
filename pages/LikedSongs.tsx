@@ -5,9 +5,9 @@ import { useNavigate } from 'react-router-dom';
 import { getImageUrl } from '../services/api';
 import { DownloadQualityModal } from '../components/DownloadQualityModal';
 import { Song } from '../types';
-import { motion, Variants } from 'motion/react';
+import { motion } from 'motion/react';
 
-const listVariants: Variants = {
+const listVariants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
@@ -17,12 +17,12 @@ const listVariants: Variants = {
   }
 };
 
-const itemVariants: Variants = {
+const itemVariants = {
   hidden: { opacity: 0, y: 10 },
   visible: { 
     opacity: 1, 
     y: 0,
-    transition: { duration: 0.2, ease: "easeOut" }
+    transition: { type: "tween", ease: "easeOut", duration: 0.2 }
   }
 };
 

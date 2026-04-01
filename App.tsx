@@ -32,7 +32,7 @@ const PageTransition: React.FC<{ children: React.ReactNode }> = ({ children }) =
       animate={{ opacity: 1, y: 0, scale: 1 }}
       exit={{ opacity: 0, y: -5, scale: 0.99 }}
       transition={{ type: "tween", ease: "easeInOut", duration: 0.3 }}
-      className="h-full w-full bg-black"
+      className="h-full w-full"
     >
       {children}
     </motion.div>
@@ -124,7 +124,7 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
       <motion.main 
         layout
         ref={mainRef}
-        className={`flex-1 relative overflow-y-auto bg-black no-scrollbar overscroll-none ${isFullScreenPage ? 'z-50 !m-0 !rounded-none' : ''} ${isFullScreen && !isFullScreenPage ? 'md:pr-[350px] lg:pr-[280px] xl:pr-[350px]' : ''} ${getPaddingClasses()}`}
+        className={`flex-1 relative overflow-y-auto bg-black no-scrollbar overscroll-none ${isFullScreenPage ? 'z-50 !m-0 !rounded-none' : ''} ${isFullScreen && !isFullScreenPage ? 'md:pr-[350px] lg:pr-[280px] xl:pr-[350px]' : ''} ${getPaddingClasses()} transition-all duration-300`}
       >
          {/* Main Content */}
         {children}
