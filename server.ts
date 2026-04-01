@@ -10,29 +10,27 @@ async function startServer() {
 
   app.use(cors());
 
-  // Proxy YouTube API
+  // Proxy API requests to the HTTP backend
   app.use(
-    "/api/yt",
+    "/api",
     createProxyMiddleware({
-      target: "https://yt-api-ten.vercel.app/api",
+      target: "http://103.190.92.19:8000",
       changeOrigin: true,
-      secure: false,
       pathRewrite: {
-        "^/api/yt": "", // strip /api/yt from the URL
+        "^/api": "", // strip /api from the URL
       },
-    })
-  );
-
-  // Proxy Saavn API
-  app.use(
-    "/api/saavn",
-    createProxyMiddleware({
-      target: "https://musicapi-gray.vercel.app/api",
-      changeOrigin: true,
-      secure: false,
-      pathRewrite: {
-        "^/api/saavn": "", // strip /api/saavn from the URL
-      },
+      on: {
+        error: (err, req, res) => {
+          console.error("Proxy Error:", err);
+          const response = res as any;
+          if (response.headersSent === false && typeof response.status === 'function') {
+            response.status(500).send("Proxy Error");
+          }
+        },
+        proxyRes: (proxyRes, req, res) => {
+          proxyRes.headers['access-control-allow-origin'] = '*';
+        }
+      }
     })
   );
 

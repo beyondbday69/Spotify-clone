@@ -21,7 +21,6 @@ interface PlayerState {
   isVideoMode: boolean;
   
   streamingQuality: 'low' | 'normal' | 'high';
-  musicSource: 'local' | 'youtube' | 'both';
   themeColor: string;
   
   // Search History
@@ -73,7 +72,6 @@ interface PlayerState {
   addSongToPlaylist: (playlistId: string, song: Song) => void;
   removePlaylist: (id: string) => void;
   setStreamingQuality: (quality: 'low' | 'normal' | 'high') => void;
-  setMusicSource: (source: 'local' | 'youtube' | 'both') => void;
   setThemeColor: (color: string) => void;
   startDownload: (song: Song, url: string, filename: string) => Promise<void>;
   
@@ -119,7 +117,6 @@ export const usePlayerStore = create<PlayerState>()(
       isVideoMode: false,
       currentUser: null,
       streamingQuality: 'high',
-      musicSource: 'both',
       themeColor: '#1DB954',
       recentSearches: [],
       
@@ -278,7 +275,6 @@ export const usePlayerStore = create<PlayerState>()(
       },
 
       setStreamingQuality: (quality) => set({ streamingQuality: quality }),
-      setMusicSource: (source) => set({ musicSource: source }),
       setThemeColor: (color) => set({ themeColor: color }),
 
       addRecentSearch: (item) => set((state) => {
@@ -618,7 +614,6 @@ export const usePlayerStore = create<PlayerState>()(
         userPlaylists: state.userPlaylists,
         currentUser: state.currentUser,
         streamingQuality: state.streamingQuality,
-        musicSource: state.musicSource,
         themeColor: state.themeColor,
         recentSearches: state.recentSearches,
         downloadedSongIds: state.downloadedSongIds,

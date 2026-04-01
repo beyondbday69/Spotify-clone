@@ -4,7 +4,7 @@ import { api, getImageUrl } from '../services/api';
 import { Song, Album, Artist, SearchResult } from '../types';
 import { usePlayerStore } from '../store/playerStore';
 import { useNavigate } from 'react-router-dom';
-import { motion } from 'motion/react';
+import { motion, Variants } from 'motion/react';
 
 const BROWSE_CATEGORIES = [
   { title: "Podcasts", color: "bg-[#006450]" },
@@ -33,7 +33,7 @@ const BROWSE_CATEGORIES = [
   { title: "K-Pop", color: "bg-[#148A08]" },
 ];
 
-const containerVariants = {
+const containerVariants: Variants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
@@ -43,7 +43,7 @@ const containerVariants = {
   }
 };
 
-const itemVariants = {
+const itemVariants: Variants = {
   hidden: { opacity: 0, scale: 0.9 },
   visible: { opacity: 1, scale: 1 }
 };
@@ -53,7 +53,7 @@ export const Search: React.FC = () => {
   const [results, setResults] = useState<{ songs: Song[], albums: Album[], artists: Artist[] }>({ songs: [], albums: [], artists: [] });
   const [isLoading, setIsLoading] = useState(false);
   
-  const { playSong, likedSongs, toggleLike, musicSource } = usePlayerStore();
+  const { playSong, likedSongs, toggleLike } = usePlayerStore();
   const navigate = useNavigate();
 
   // AbortController to handle race conditions
@@ -77,7 +77,7 @@ export const Search: React.FC = () => {
         abortControllerRef.current = new AbortController();
         try {
            const [songs, albums, artists] = await Promise.all([
-              api.searchSongs(query, musicSource),
+              api.searchSongs(query),
               api.searchAlbums(query),
               api.searchArtists(query)
            ]);
@@ -98,7 +98,7 @@ export const Search: React.FC = () => {
     }, 300);
 
     return () => clearTimeout(timer);
-  }, [query, musicSource]);
+  }, [query]);
 
   const clearSearch = () => {
     setQuery('');
@@ -133,10 +133,10 @@ export const Search: React.FC = () => {
   );
 
   return (
-    <div className="flex flex-col min-h-full pb-32 bg-black">
+    <div className="flex flex-col min-h-full pb-32 bg-transparent">
       
       {/* Search Header - Material 3 Style */}
-      <div className="sticky top-0 bg-black z-30 px-6 py-4">
+      <div className="sticky top-0 bg-black z-30 px-6 py-4 transition-colors duration-300">
          <div className="relative flex-1">
                  <SearchIcon className="absolute left-4 top-1/2 -translate-y-1/2 text-white/50" size={24} />
                  <input 
@@ -145,7 +145,7 @@ export const Search: React.FC = () => {
                     onChange={(e) => setQuery(e.target.value)}
                     onKeyDown={handleKeywordSearch}
                     placeholder="What do you want to listen to?" 
-                    className="w-full bg-[#111] text-white pl-12 pr-12 py-3 rounded-full font-medium text-base placeholder-white/50 focus:outline-none focus:ring-1 focus:ring-white/20 focus:bg-[#111] active:bg-[#111]"
+                    className="w-full bg-[#111] text-white pl-12 pr-12 py-3 rounded-full font-medium text-base placeholder-white/50 focus:outline-none focus:ring-1 focus:ring-white/20 transition-all"
                     autoFocus={false}
                  />
                  {query && (

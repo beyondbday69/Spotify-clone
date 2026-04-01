@@ -1,7 +1,7 @@
 import { Song, Album, Artist, Playlist } from '../types';
 
-const BASE_URL = '/api/saavn';
-const YT_BASE_URL = '/api/yt';
+const BASE_URL = 'https://musicapi-gray.vercel.app/api';
+const YT_BASE_URL = '/api';
 
 // --- OFFLINE STORAGE (IndexedDB) ---
 const DB_NAME = 'vibestream_offline_db';
@@ -243,103 +243,77 @@ export const api = {
           const res = await fetch(`${YT_BASE_URL}/metadata/${id}`);
           const data = await res.json();
           if (data.artist) {
-              return await api.searchSongs(data.artist, 'youtube');
+              return await api.searchSongs(data.artist);
           }
           return [];
       } catch(e) { return []; }
   },
 
-  searchSongs: async (query: string, source: 'local' | 'youtube' | 'both' = 'both'): Promise<Song[]> => {
-    const promises = [];
-    let ytIndex = -1;
-    let localIndex = -1;
+  searchSongs: async (query: string): Promise<Song[]> => {
+    try {
+        const res = await fetch(`${YT_BASE_URL}/search?q=${encodeURIComponent(query)}&limit=20`);
+        const data = await res.json();
+        
+        if (!data || !Array.isArray(data.results)) return [];
 
-    // Fetch YT if selected
-    if (source === 'youtube' || source === 'both') {
-        promises.push(fetch(`${YT_BASE_URL}/search?q=${encodeURIComponent(query)}&limit=15`).then(r => r.json()));
-        ytIndex = promises.length - 1;
+        return data.results.map((item: any) => ({
+             id: item.id,
+             name: item.title,
+             type: 'song' as const,
+             album: { id: item.id, name: 'Single', url: '' },
+             year: new Date().getFullYear().toString(),
+             duration: item.duration_seconds ? item.duration_seconds.toString() : parseDuration(item.duration),
+             language: 'Unknown',
+             genre: 'Unknown',
+             image: [{ quality: 'high', url: `${YT_BASE_URL}/thumbnail/${item.id}` }],
+             artists: {
+                primary: [{ id: 'yt', name: item.artist || 'Unknown Artist', role: 'Artist', image: [] }],
+                featured: [],
+                all: []
+             },
+             downloadUrl: [] // Signals Player to lazy-load stream
+        }));
+    } catch (e) {
+        console.error("Search error", e);
+        return [];
     }
-
-    // Fetch Local if selected
-    if (source === 'local' || source === 'both') {
-        promises.push(fetchJson<{ data: { results: Song[] } }>(`/search/songs?query=${encodeURIComponent(query)}`).then(d => d.data.results));
-        localIndex = promises.length - 1;
-    }
-
-    const results = await Promise.allSettled(promises);
-    let finalResults: Song[] = [];
-
-    // Process YT Results
-    if (ytIndex !== -1) {
-        const ytRes = results[ytIndex];
-        if (ytRes.status === 'fulfilled' && ytRes.value && Array.isArray(ytRes.value.results)) {
-            const mapped = ytRes.value.results.map((item: any) => ({
-                 id: item.id,
-                 name: item.title,
-                 type: 'song' as const,
-                 album: { id: item.id, name: 'Single', url: '' },
-                 year: new Date().getFullYear().toString(),
-                 duration: item.duration_seconds ? item.duration_seconds.toString() : parseDuration(item.duration),
-                 language: 'Unknown',
-                 genre: 'Unknown',
-                 image: [{ quality: 'high', url: `${YT_BASE_URL}/thumbnail/${item.id}` }],
-                 artists: {
-                    primary: [{ id: 'yt', name: item.artist || 'Unknown Artist', role: 'Artist', image: [] }],
-                    featured: [],
-                    all: []
-                 },
-                 downloadUrl: [] // Signals Player to lazy-load stream
-            }));
-            finalResults = [...finalResults, ...mapped];
-        }
-    }
-
-    // Process Local Results
-    if (localIndex !== -1) {
-        const localRes = results[localIndex];
-        if (localRes.status === 'fulfilled' && localRes.value) {
-            finalResults = [...finalResults, ...localRes.value];
-        }
-    }
-
-    // Deduplicate by ID
-    const uniqueMap = new Map();
-    finalResults.forEach(item => {
-        if(!uniqueMap.has(item.id)){
-            uniqueMap.set(item.id, item);
-        }
-    });
-    
-    return Array.from(uniqueMap.values());
   },
 
   searchAlbums: async (query: string): Promise<Album[]> => {
     try {
-      const data = await fetchJson<{ data: { results: Album[] } }>(`/search/albums?query=${encodeURIComponent(query)}`);
-      return data.data.results || [];
-    } catch (e) {
-      console.error("Search albums error", e);
-      return [];
-    }
+        const res = await fetch(`${YT_BASE_URL}/search?q=${encodeURIComponent(query)}&limit=10&type=album`);
+        const data = await res.json();
+        if (!data || !Array.isArray(data.results)) return [];
+        return data.results.map((item: any) => ({
+            id: item.id,
+            name: item.title,
+            type: 'album' as const,
+            description: item.description || '',
+            year: item.year || new Date().getFullYear().toString(),
+            language: 'Unknown',
+            image: [{ quality: 'high', url: `${YT_BASE_URL}/thumbnail/${item.id}` }],
+            artists: {
+                primary: [{ id: 'yt', name: item.artist || 'Unknown Artist', role: 'Artist', image: [] }]
+            }
+        }));
+    } catch (e) { return []; }
   },
 
   searchArtists: async (query: string): Promise<Artist[]> => {
     try {
-      const data = await fetchJson<{ data: { results: Artist[] } }>(`/search/artists?query=${encodeURIComponent(query)}`);
-      return data.data.results || [];
-    } catch (e) {
-      console.error("Search artists error", e);
-      return [];
-    }
+        const res = await fetch(`${YT_BASE_URL}/search?q=${encodeURIComponent(query)}&limit=10&type=artist`);
+        const data = await res.json();
+        if (!data || !Array.isArray(data.results)) return [];
+        return data.results.map((item: any) => ({
+            id: item.id,
+            name: item.title,
+            type: 'artist' as const,
+            image: [{ quality: 'high', url: `${YT_BASE_URL}/thumbnail/${item.id}` }]
+        }));
+    } catch (e) { return []; }
   },
 
   getAlbumDetails: async (id: string): Promise<Album | null> => {
-    try {
-      const data = await fetchJson<{ data: Album }>(`/albums?id=${id}`);
-      return data.data || null;
-    } catch (e) {
-      console.error("Get album details error", e);
-      return null;
-    }
+    return null;
   }
 };

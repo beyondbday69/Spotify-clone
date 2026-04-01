@@ -5,10 +5,10 @@ import { usePlayerStore } from '../store/playerStore';
 import { Bell, History, Settings, Play, UserCircle, WifiOff, Rocket } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { SongCard } from '../components/SongCard';
-import { motion } from 'motion/react';
+import { motion, Variants } from 'motion/react';
 
 // Animation Variants
-const containerVariants = {
+const containerVariants: Variants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
@@ -19,7 +19,7 @@ const containerVariants = {
   }
 };
 
-const itemVariants = {
+const itemVariants: Variants = {
   hidden: { opacity: 0, y: 20 },
   visible: { opacity: 1, y: 0 }
 };

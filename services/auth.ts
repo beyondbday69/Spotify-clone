@@ -19,9 +19,20 @@ import {
   onSnapshot
 } from 'firebase/firestore';
 
-// Helper to remove undefined values which Firestore hates
+// Helper to remove undefined values and handle circular structures safely
 const cleanData = (obj: any) => {
-  return JSON.parse(JSON.stringify(obj));
+  try {
+    return JSON.parse(JSON.stringify(obj, (key, value) => {
+      // Exclude DOM elements and React internal properties
+      if (value instanceof Node || (key && key.startsWith('__react'))) {
+        return undefined;
+      }
+      return value;
+    }));
+  } catch (e) {
+    console.error("Serialization error in cleanData", e);
+    return {};
+  }
 };
 
 export const authService = {

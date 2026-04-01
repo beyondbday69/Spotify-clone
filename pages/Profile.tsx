@@ -35,7 +35,7 @@ const heroVariants: Variants = {
 };
 
 export const Profile: React.FC = () => {
-  const { currentUser, updateUserProfile, logoutUser, streamingQuality, setStreamingQuality, favoriteArtists, musicSource, setMusicSource, themeColor, setThemeColor } = usePlayerStore();
+  const { currentUser, updateUserProfile, logoutUser, streamingQuality, setStreamingQuality, favoriteArtists, themeColor, setThemeColor } = usePlayerStore();
   const navigate = useNavigate();
 
   const [name, setName] = useState('');
@@ -283,41 +283,7 @@ export const Profile: React.FC = () => {
                    </div>
               </motion.div>
 
-               {/* Music Source Selection */}
-               <motion.div variants={itemVariants} className="bg-[#111] p-6 rounded-xl">
-                   <h3 className="text-lg font-bold mb-6 flex items-center gap-3">
-                      <Globe size={24} className="text-accent"/> Music Source
-                   </h3>
-                   <div className="flex flex-col gap-3">
-                      {[
-                          { val: 'both', label: 'Hybrid (Recommended)', sub: 'Results from both sources', Icon: Layers },
-                          { val: 'youtube', label: 'YouTube Music', sub: 'Extensive library from YT', Icon: Youtube },
-                          { val: 'local', label: 'Local Library', sub: 'High quality official tracks', Icon: Library },
-                      ].map((opt) => (
-                          <button
-                            key={opt.val}
-                            type="button"
-                            onClick={() => setMusicSource(opt.val as any)}
-                            className={`flex items-center p-4 rounded-lg transition-all ${
-                                musicSource === opt.val 
-                                ? 'bg-[#222]' 
-                                : 'bg-transparent hover:bg-[#1a1a1a]'
-                            }`}
-                          >
-                              <div className={`p-3 rounded-full mr-5 ${musicSource === opt.val ? 'text-accent bg-[#111]' : 'text-white/50 bg-transparent'}`}>
-                                  <opt.Icon size={24} />
-                              </div>
-                              <div className="flex flex-col items-start flex-1">
-                                  <span className={`text-[15px] font-medium ${musicSource === opt.val ? 'text-white' : 'text-white/70'}`}>{opt.label}</span>
-                                  <span className="text-[13px] font-medium text-white/50">{opt.sub}</span>
-                              </div>
-                              {musicSource === opt.val && <div className="w-3 h-3 bg-accent rounded-full"></div>}
-                          </button>
-                      ))}
-                   </div>
-              </motion.div>
-
-              {/* Audio Quality */}
+               {/* Audio Quality */}
               <motion.div variants={itemVariants} className="bg-[#111] p-6 rounded-xl">
                    <h3 className="text-lg font-bold mb-6 flex items-center gap-3">
                       <Music2 size={24} className="text-accent"/> Audio Quality

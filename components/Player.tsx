@@ -39,6 +39,7 @@ export const Player: React.FC = () => {
   const navigate = useNavigate();
   
   const [dominantColor, setDominantColor] = useState<string>('#121212');
+  const [showArtVideo, setShowArtVideo] = useState(true);
   
   // Refs for State
   const isDragging = useRef(false);
@@ -220,30 +221,12 @@ export const Player: React.FC = () => {
             >
                 {/* Base Background */}
                 <div 
-                    className="absolute inset-0 z-[-3] pointer-events-none" 
-                    style={{ backgroundColor: dominantColor }} 
+                    className="absolute inset-0 z-[-3] pointer-events-none bg-black" 
                 />
-
-                {/* Video Loop Background */}
-                <div className="absolute inset-0 z-[-2] pointer-events-none overflow-hidden">
-                    <video 
-                        key={currentSong.id}
-                        src={`/api/preview/${currentSong.id}`} 
-                        autoPlay 
-                        loop 
-                        muted 
-                        playsInline 
-                        className="w-full h-full object-cover opacity-50"
-                        onError={(e) => {
-                            (e.target as HTMLVideoElement).style.display = 'none';
-                        }}
-                    />
-                </div>
 
                 {/* Gradient Overlay */}
                 <div 
-                    className="absolute inset-0 z-[-1] pointer-events-none" 
-                    style={{ background: `linear-gradient(to bottom, ${dominantColor}40 0%, #121212 100%)` }} 
+                    className="absolute inset-0 z-[-1] pointer-events-none bg-black/60" 
                 />
 
                 {/* Full Player Content */}
@@ -263,18 +246,51 @@ export const Player: React.FC = () => {
                     </div>
 
                     {/* Art */}
-                    <div className="flex-1 flex flex-col justify-center items-center min-h-0 py-4 md:py-8">
-                        <div className="relative w-full aspect-square max-h-full max-w-[340px] rounded-2xl overflow-hidden bg-[#111]">
-                            <img src={imageUrl} alt="Cover" className="w-full h-full object-cover" />
+                    <div 
+                        className="flex-1 flex flex-col justify-center items-center min-h-0 py-1 md:py-4 -mx-6"
+                        onClick={() => setShowArtVideo(!showArtVideo)}
+                    >
+                        <div className="relative w-full aspect-video md:max-w-[450px] rounded-2xl overflow-hidden bg-[#111] cursor-pointer shadow-2xl border border-white/5">
+                            <AnimatePresence mode="wait">
+                                {showArtVideo ? (
+                                    <motion.div 
+                                        key={`video-container-${currentSong.id}`}
+                                        initial={{ opacity: 0 }}
+                                        animate={{ opacity: 1 }}
+                                        exit={{ opacity: 0 }}
+                                        className="absolute inset-0 w-full h-full"
+                                    >
+                                        <video 
+                                            src={`/api/stream-proxy/${currentSong.id}`} 
+                                            autoPlay 
+                                            loop 
+                                            muted 
+                                            playsInline 
+                                            className="w-full h-full object-cover object-center scale-[1.05]"
+                                            onError={() => setShowArtVideo(false)}
+                                        />
+                                    </motion.div>
+                                ) : (
+                                    <motion.img 
+                                        key={`img-${currentSong.id}`}
+                                        initial={{ opacity: 0 }}
+                                        animate={{ opacity: 1 }}
+                                        exit={{ opacity: 0 }}
+                                        src={imageUrl} 
+                                        alt="Cover" 
+                                        className="absolute inset-0 w-full h-full object-cover object-center scale-[1.05]" 
+                                    />
+                                )}
+                            </AnimatePresence>
                         </div>
                     </div>
 
                     {/* Info & Controls */}
-                    <div className="flex flex-col shrink-0 gap-6">
+                    <div className="flex flex-col shrink-0 gap-4 md:gap-6">
                         <div className="flex items-center justify-between">
                             <div className="flex flex-col overflow-hidden mr-4 min-w-0">
-                                <h2 className="text-2xl font-bold text-white truncate leading-tight">{currentSong.name}</h2>
-                                <p className="text-lg text-white/70 truncate">{currentSong.artists?.primary?.[0]?.name}</p>
+                                <h2 className="text-xl md:text-2xl font-bold text-white truncate leading-tight">{currentSong.name}</h2>
+                                <p className="text-base md:text-lg text-white/70 truncate">{currentSong.artists?.primary?.[0]?.name}</p>
                             </div>
                             <button onClick={(e) => { e.stopPropagation(); toggleLike(currentSong); }} className="shrink-0 p-1 rounded-full hover:bg-[#222222] transition-colors">
                                 {isLiked ? <CheckCircle2 size={28} className="text-accent fill-black" /> : <PlusCircle size={28} className="text-white/70" />}
@@ -282,7 +298,7 @@ export const Player: React.FC = () => {
                         </div>
 
                         {/* Scrubber */}
-                        <div className="flex flex-col gap-2 pt-2 slider-container" onClick={(e) => e.stopPropagation()}>
+                        <div className="flex flex-col gap-1 pt-1 slider-container" onClick={(e) => e.stopPropagation()}>
                             <div 
                                 ref={seekBarRef}
                                 className="relative h-4 w-full flex items-center cursor-pointer touch-none group"
@@ -327,6 +343,7 @@ export const Player: React.FC = () => {
                             <button className="text-white/40 shrink-0 p-2 hover:text-white transition-colors"><Repeat size={20} /></button>
                         </div>
                     </div>
+
                 </div>
             </motion.div>
         ) : (
