@@ -10,14 +10,28 @@ async function startServer() {
 
   app.use(cors());
 
-  // Proxy API requests to the HTTP backend
+  // Proxy YouTube API
   app.use(
-    "/api",
+    "/api/yt",
     createProxyMiddleware({
-      target: "http://103.190.92.19:8000",
+      target: "https://yt-api-ten.vercel.app/api",
       changeOrigin: true,
+      secure: false,
       pathRewrite: {
-        "^/api": "", // strip /api from the URL
+        "^/api/yt": "", // strip /api/yt from the URL
+      },
+    })
+  );
+
+  // Proxy Saavn API
+  app.use(
+    "/api/saavn",
+    createProxyMiddleware({
+      target: "https://musicapi-gray.vercel.app/api",
+      changeOrigin: true,
+      secure: false,
+      pathRewrite: {
+        "^/api/saavn": "", // strip /api/saavn from the URL
       },
     })
   );
