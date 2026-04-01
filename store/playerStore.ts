@@ -18,6 +18,7 @@ interface PlayerState {
   
   // Shuffle State
   shuffleMode: 'off' | 'on' | 'smart';
+  isVideoMode: boolean;
   
   streamingQuality: 'low' | 'normal' | 'high';
   musicSource: 'local' | 'youtube' | 'both';
@@ -60,6 +61,7 @@ interface PlayerState {
   nextSong: () => void;
   prevSong: () => void;
   toggleShuffle: () => void;
+  toggleVideoMode: () => void;
   addToQueue: (song: Song) => void;
   setQueue: (songs: Song[]) => void;
   setVolume: (val: number) => void;
@@ -114,6 +116,7 @@ export const usePlayerStore = create<PlayerState>()(
       userPlaylists: [],
       volume: 1,
       shuffleMode: 'off',
+      isVideoMode: false,
       currentUser: null,
       streamingQuality: 'high',
       musicSource: 'both',
@@ -216,6 +219,8 @@ export const usePlayerStore = create<PlayerState>()(
               }).catch(e => console.error("AI Shuffle Error", e));
           }
       },
+
+      toggleVideoMode: () => set((state) => ({ isVideoMode: !state.isVideoMode })),
 
       nextSong: () => {
         const { queue, currentSong, shuffleMode } = get();

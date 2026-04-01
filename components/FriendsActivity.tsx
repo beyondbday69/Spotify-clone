@@ -10,7 +10,7 @@ export const FriendsActivity: React.FC = () => {
   if (!currentUser) return null;
 
   return (
-    <aside className="hidden lg:flex w-[300px] bg-black flex-col border-l border-[#282828] h-full p-0 overflow-hidden">
+    <aside className="hidden lg:flex w-[300px] bg-black flex-col h-full p-0 overflow-hidden">
         
         {/* Header */}
         <div className="flex items-center justify-between p-4 mb-2 text-[#B3B3B3]">
@@ -30,7 +30,7 @@ export const FriendsActivity: React.FC = () => {
                 >
                     {/* Avatar */}
                     <div className="relative shrink-0">
-                        <img src={friend.image || `https://ui-avatars.com/api/?name=${friend.name}&background=random`} alt={friend.name} className="w-10 h-10 rounded-full object-cover shadow-sm" />
+                        <img src={friend.image || `https://ui-avatars.com/api/?name=${friend.name}&background=random`} alt={friend.name} className="w-10 h-10 rounded-full object-cover" />
                         
                         {/* Status Indicators */}
                         {friend.status === 'listening' ? (
@@ -80,7 +80,7 @@ export const FriendsActivity: React.FC = () => {
             )}
         </div>
         
-        <div className="p-4 border-t border-[#282828] mt-auto">
+        <div className="p-4 mt-auto">
              <button 
                 onClick={() => navigate('/social')}
                 className="w-full py-3 rounded-full bg-white text-black text-sm font-bold hover:scale-105 transition-transform"

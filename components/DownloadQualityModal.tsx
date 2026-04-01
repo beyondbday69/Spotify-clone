@@ -22,8 +22,8 @@ export const DownloadQualityModal: React.FC<DownloadQualityModalProps> = ({ song
               setIsLoading(true);
               try {
                   const info = await api.getStreamInfo(song.id);
-                  if (info && info.stream_url) {
-                      setDownloadOptions([{ url: info.stream_url, quality: 'High (Standard)' }]);
+                  if (info && (info.download_url || info.stream_url)) {
+                      setDownloadOptions([{ url: info.download_url || info.stream_url, quality: 'High (Standard)' }]);
                   }
               } catch(e) {
                   console.error(e);
@@ -60,12 +60,12 @@ export const DownloadQualityModal: React.FC<DownloadQualityModalProps> = ({ song
   });
 
   return (
-    <div className="fixed inset-0 z-[300] flex items-center justify-center bg-black/90 backdrop-blur-md p-4 animate-in fade-in duration-200">
+    <div className="fixed inset-0 z-[300] flex items-center justify-center bg-black/90  p-4 animate-in fade-in duration-200">
         <motion.div 
             initial={{ scale: 0.9, opacity: 0, y: 20 }}
             animate={{ scale: 1, opacity: 1, y: 0 }}
             exit={{ scale: 0.9, opacity: 0, y: 20 }}
-            className="bg-[#121212] w-full max-w-2xl rounded-3xl overflow-hidden shadow-2xl border border-white/10 relative"
+            className="bg-[#111] w-full max-w-2xl rounded-xl overflow-hidden relative"
         >
             {/* Header */}
             <div className="p-8 pb-4 flex items-start justify-between">
@@ -75,7 +75,7 @@ export const DownloadQualityModal: React.FC<DownloadQualityModalProps> = ({ song
                 </div>
                 <button 
                     onClick={onClose} 
-                    className="p-3 bg-white/5 hover:bg-white/10 rounded-full text-white transition-colors"
+                    className="p-3 hover:bg-[#222] rounded-full text-white transition-colors"
                 >
                     <X size={24} />
                 </button>
@@ -104,12 +104,12 @@ export const DownloadQualityModal: React.FC<DownloadQualityModalProps> = ({ song
                                     whileHover={{ scale: 1.02 }}
                                     whileTap={{ scale: 0.98 }}
                                     onClick={() => handleDownload(option.url, option.quality)}
-                                    className="relative overflow-hidden group rounded-2xl p-1 text-left"
+                                    className="relative overflow-hidden group rounded-lg p-1 text-left"
                                 >
                                     <div className={`absolute inset-0 bg-gradient-to-br ${meta.color} opacity-10 group-hover:opacity-20 transition-opacity`}></div>
-                                    <div className="relative bg-[#1E1E1E] h-full p-5 rounded-xl border border-white/5 group-hover:border-white/20 transition-colors flex items-center justify-between">
+                                    <div className="relative bg-[#222] h-full p-5 rounded-lg flex items-center justify-between">
                                         <div className="flex items-center gap-4">
-                                            <div className={`w-12 h-12 rounded-full bg-gradient-to-br ${meta.color} flex items-center justify-center shadow-lg`}>
+                                            <div className={`w-12 h-12 rounded-full bg-gradient-to-br ${meta.color} flex items-center justify-center`}>
                                                 <Icon size={20} className="text-white" />
                                             </div>
                                             <div className="flex flex-col">
@@ -121,7 +121,7 @@ export const DownloadQualityModal: React.FC<DownloadQualityModalProps> = ({ song
                                                 </div>
                                             </div>
                                         </div>
-                                        <div className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center group-hover:bg-accent group-hover:text-black transition-all">
+                                        <div className="w-10 h-10 rounded-full bg-[#333] flex items-center justify-center group-hover:bg-accent group-hover:text-black transition-all">
                                             <Download size={20} />
                                         </div>
                                     </div>
@@ -133,7 +133,7 @@ export const DownloadQualityModal: React.FC<DownloadQualityModalProps> = ({ song
             </div>
 
             {/* Footer */}
-            <div className="bg-[#181818] p-4 text-center text-xs text-white/30 border-t border-white/5 uppercase tracking-widest font-bold">
+            <div className="bg-[#111] p-4 text-center text-xs text-white/30 uppercase tracking-widest font-bold">
                 Downloads are saved to your browser cache
             </div>
         </motion.div>

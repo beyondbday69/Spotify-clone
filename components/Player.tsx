@@ -1,8 +1,9 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { Play, Pause, SkipBack, SkipForward, ChevronDown, Download, Heart, Loader2, Shuffle, Repeat, CheckCircle2, PlusCircle, Sparkles, PanelRightClose } from 'lucide-react';
 import { usePlayerStore } from '../store/playerStore';
+import { useUiStore } from '../store/uiStore';
 import { api, getImageUrl } from '../services/api';
-import { AnimatePresence, motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'motion/react';
 import { useNavigate } from 'react-router-dom';
 
 // Smooth Tween Animation (No Spring) - Native iOS-like Slide
@@ -32,6 +33,8 @@ export const Player: React.FC = () => {
     audioElement,
     seek
   } = usePlayerStore();
+
+  const { navPosition } = useUiStore();
 
   const navigate = useNavigate();
   
@@ -209,16 +212,38 @@ export const Player: React.FC = () => {
         {isFullScreen ? (
             <motion.div 
                 key="full-player"
-                initial={{ x: '100%', opacity: 0 }}
-                animate={{ x: 0, opacity: 1 }}
-                exit={{ x: '100%', opacity: 0 }}
+                initial={{ x: '100%' }}
+                animate={{ x: 0 }}
+                exit={{ x: '100%' }}
                 transition={{ type: "spring", damping: 25, stiffness: 200 }}
-                className="fixed z-[200] bg-[#121212] overflow-hidden shadow-2xl flex flex-col isolate inset-0 md:inset-y-2 md:right-2 md:left-auto md:w-[350px] xl:w-[420px] md:rounded-xl"
+                className="fixed z-[200] bg-black overflow-hidden flex flex-col isolate inset-0 md:left-auto md:right-0 md:w-[350px] lg:w-[280px] xl:w-[350px] h-full shadow-2xl"
             >
-                {/* Backgrounds */}
+                {/* Base Background */}
+                <div 
+                    className="absolute inset-0 z-[-3] pointer-events-none" 
+                    style={{ backgroundColor: dominantColor }} 
+                />
+
+                {/* Video Loop Background */}
+                <div className="absolute inset-0 z-[-2] pointer-events-none overflow-hidden">
+                    <video 
+                        key={currentSong.id}
+                        src={`/api/preview/${currentSong.id}`} 
+                        autoPlay 
+                        loop 
+                        muted 
+                        playsInline 
+                        className="w-full h-full object-cover opacity-50"
+                        onError={(e) => {
+                            (e.target as HTMLVideoElement).style.display = 'none';
+                        }}
+                    />
+                </div>
+
+                {/* Gradient Overlay */}
                 <div 
                     className="absolute inset-0 z-[-1] pointer-events-none" 
-                    style={{ backgroundColor: dominantColor, background: `linear-gradient(to bottom, ${dominantColor}80, #121212)` }} 
+                    style={{ background: `linear-gradient(to bottom, ${dominantColor}40 0%, #121212 100%)` }} 
                 />
 
                 {/* Full Player Content */}
@@ -229,7 +254,7 @@ export const Player: React.FC = () => {
                 >
                     {/* Header */}
                     <div className="flex items-center justify-between h-14 shrink-0 mt-2">
-                        <button onClick={(e) => { e.stopPropagation(); setFullScreen(false); }} className="p-2 -ml-2 rounded-full hover:bg-white/10 shrink-0">
+                        <button onClick={(e) => { e.stopPropagation(); setFullScreen(false); }} className="p-2 -ml-2 rounded-full hover:bg-[#222] shrink-0">
                             <ChevronDown size={28} className="text-white md:hidden" />
                             <PanelRightClose size={24} className="text-white/70 hover:text-white hidden md:block" />
                         </button>
@@ -239,7 +264,7 @@ export const Player: React.FC = () => {
 
                     {/* Art */}
                     <div className="flex-1 flex flex-col justify-center items-center min-h-0 py-4 md:py-8">
-                        <div className="relative w-full aspect-square max-h-full max-w-[340px] shadow-2xl rounded-xl overflow-hidden bg-[#222]">
+                        <div className="relative w-full aspect-square max-h-full max-w-[340px] rounded-2xl overflow-hidden bg-[#111]">
                             <img src={imageUrl} alt="Cover" className="w-full h-full object-cover" />
                         </div>
                     </div>
@@ -251,7 +276,7 @@ export const Player: React.FC = () => {
                                 <h2 className="text-2xl font-bold text-white truncate leading-tight">{currentSong.name}</h2>
                                 <p className="text-lg text-white/70 truncate">{currentSong.artists?.primary?.[0]?.name}</p>
                             </div>
-                            <button onClick={(e) => { e.stopPropagation(); toggleLike(currentSong); }} className="shrink-0 p-1 rounded-full hover:bg-white/10 transition-colors">
+                            <button onClick={(e) => { e.stopPropagation(); toggleLike(currentSong); }} className="shrink-0 p-1 rounded-full hover:bg-[#222222] transition-colors">
                                 {isLiked ? <CheckCircle2 size={28} className="text-accent fill-black" /> : <PlusCircle size={28} className="text-white/70" />}
                             </button>
                         </div>
@@ -267,7 +292,7 @@ export const Player: React.FC = () => {
                                 onPointerCancel={handlePointerUp}
                                 style={{ touchAction: 'none' }} 
                             >
-                                 <div className="absolute left-0 right-0 h-1 bg-white/20 rounded-full overflow-hidden pointer-events-none group-hover:h-1.5 transition-all">
+                                 <div className="absolute left-0 right-0 h-1 bg-[#333333] rounded-full overflow-hidden pointer-events-none group-hover:h-1.5 transition-all">
                                      <div ref={fullProgressRef} className="h-full bg-white rounded-full" style={{ width: '0%' }} />
                                  </div>
                                  <div ref={fullThumbRef} className="absolute h-3 w-3 bg-white rounded-full shadow-md z-10 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity" style={{ left: '-6px' }} />
@@ -291,14 +316,14 @@ export const Player: React.FC = () => {
                                     </div>
                                 )}
                             </button>
-                            <button onClick={prevSong} className="shrink-0 p-2 hover:bg-white/5 rounded-full transition-colors"><SkipBack size={32} className="text-white" fill="white" /></button>
+                            <button onClick={prevSong} className="shrink-0 p-2 hover:bg-[#1A1A1A] rounded-full transition-colors"><SkipBack size={32} className="text-white" fill="white" /></button>
                             <button 
                                 onClick={togglePlay} 
-                                className="w-16 h-16 bg-white rounded-full flex items-center justify-center hover:scale-105 active:scale-95 transition-transform shrink-0 shadow-lg"
+                                className="w-16 h-16 bg-white rounded-full flex items-center justify-center hover:scale-105 active:scale-95 transition-transform shrink-0"
                             >
                                 {isBuffering ? <Loader2 size={32} className="animate-spin text-black" /> : isPlaying ? <Pause size={32} fill="black" className="text-black" /> : <Play size={32} fill="black" className="ml-1 text-black" />}
                             </button>
-                            <button onClick={nextSong} className="shrink-0 p-2 hover:bg-white/5 rounded-full transition-colors"><SkipForward size={32} className="text-white" fill="white" /></button>
+                            <button onClick={nextSong} className="shrink-0 p-2 hover:bg-[#1A1A1A] rounded-full transition-colors"><SkipForward size={32} className="text-white" fill="white" /></button>
                             <button className="text-white/40 shrink-0 p-2 hover:text-white transition-colors"><Repeat size={20} /></button>
                         </div>
                     </div>
@@ -311,20 +336,20 @@ export const Player: React.FC = () => {
                 animate={{ y: 0, opacity: 1 }}
                 exit={{ y: 100, opacity: 0 }}
                 transition={{ type: "spring", damping: 25, stiffness: 200 }}
-                className="fixed z-[200] bg-[#121212] overflow-hidden shadow-2xl flex flex-col isolate bottom-[72px] md:bottom-6 left-0 right-0 mx-auto w-[calc(100%-16px)] max-w-[400px] md:left-auto md:right-6 md:mx-0 md:w-[350px] xl:w-[420px] h-[64px] rounded-xl cursor-pointer border border-white/10"
+                className={`fixed z-[200] bg-[#111] overflow-hidden flex flex-col isolate left-0 right-0 mx-auto w-[calc(100%-32px)] max-w-[400px] h-[64px] rounded-md cursor-pointer p-1.5 ${navPosition === 'bottom' ? 'bottom-[88px]' : 'bottom-6'}`}
                 onClick={() => setFullScreen(true)}
             >
                 {/* Backgrounds */}
                 <div 
-                    className="absolute inset-0 z-[-1] pointer-events-none bg-[#222]" 
-                    style={{ backgroundColor: dominantColor }}
+                    className="absolute inset-0 z-[-1] pointer-events-none bg-[#222]/50" 
+                    style={{ backgroundColor: dominantColor ? `${dominantColor}40` : 'transparent' }}
                 >
-                    <div className="absolute inset-0 bg-black/20" />
+                    <div className="absolute inset-0 bg-[#0A0A0A]" />
                 </div>
 
                 {/* Mini Player Content */}
-                <div className="absolute inset-0 flex items-center h-full px-2 gap-3">
-                    <div className="h-12 w-12 shrink-0 rounded-[6px] overflow-hidden bg-[#333]">
+                <div className="relative flex items-center h-full w-full gap-3 px-2">
+                    <div className="h-10 w-10 shrink-0 rounded-md overflow-hidden bg-[#333]">
                         <img src={imageUrl} alt="" className="w-full h-full object-cover" />
                     </div>
                     
@@ -333,13 +358,13 @@ export const Player: React.FC = () => {
                         <div className="text-white/70 text-xs truncate">{currentSong.artists.primary[0]?.name}</div>
                     </div>
                     
-                    <div className="flex items-center gap-1.5 shrink-0">
-                        <button onClick={(e) => { e.stopPropagation(); toggleLike(currentSong); }} className="p-1.5"><Heart size={20} fill={isLiked ? "var(--theme-color)" : "none"} className={isLiked ? "text-accent" : "text-white"} /></button>
-                        <button onClick={(e) => { e.stopPropagation(); togglePlay(); }} className="p-1.5 text-white">
-                            {isBuffering ? <Loader2 size={24} className="animate-spin" /> : isPlaying ? <Pause size={24} fill="white" /> : <Play size={24} fill="white" />}
+                    <div className="flex items-center gap-1 shrink-0">
+                        <button onClick={(e) => { e.stopPropagation(); toggleLike(currentSong); }} className="p-2 hover:bg-[#222222] rounded-md transition-colors"><Heart size={18} fill={isLiked ? "var(--theme-color)" : "none"} className={isLiked ? "text-accent" : "text-white"} /></button>
+                        <button onClick={(e) => { e.stopPropagation(); togglePlay(); }} className="p-2 hover:bg-[#222222] rounded-md transition-colors text-white">
+                            {isBuffering ? <Loader2 size={20} className="animate-spin" /> : isPlaying ? <Pause size={20} fill="white" /> : <Play size={20} fill="white" />}
                         </button>
                     </div>
-                    <div className="absolute bottom-0 left-1 right-1 h-[2px] bg-white/20 rounded-full overflow-hidden">
+                    <div className="absolute bottom-[-6px] left-[-6px] right-[-6px] h-[2px] bg-[#222222] overflow-hidden">
                         <div ref={miniProgressRef} className="h-full bg-white rounded-full" style={{ width: '0%' }}></div>
                     </div>
                 </div>

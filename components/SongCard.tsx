@@ -50,38 +50,38 @@ export const SongCard: React.FC<SongCardProps> = ({ item, onPlay, subtitle, roun
 
   return (
     <motion.div 
-      whileHover={{ y: -5 }}
+      whileHover={{ y: -2 }}
       whileTap={{ scale: 0.98 }}
       initial={{ opacity: 0, scale: 0.95 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: 0.2, ease: "easeOut" }}
       onClick={handleClick}
-      className="group relative bg-[#181818] hover:bg-[#282828] p-4 rounded-[24px] transition-colors cursor-pointer w-[160px] md:w-[180px] shrink-0"
+      className="group relative bg-transparent transition-colors cursor-pointer w-[140px] md:w-[160px] shrink-0"
     >
-      <div className={`relative w-full aspect-square mb-3 shadow-lg ${round ? 'rounded-full' : 'rounded-[16px]'} overflow-hidden`}>
+      <div className={`relative w-full aspect-square mb-3 ${round ? 'rounded-full' : 'rounded-md'} overflow-hidden bg-[#111]`}>
         <img 
           src={imageUrl} 
           alt={displayTitle} 
-          className="w-full h-full object-cover"
+          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
           loading="lazy"
         />
         {/* Play Button Overlay */}
         {!round && item.type !== 'artist' && (
           <motion.button 
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.9 }}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
             onClick={handlePlayClick}
-            className="absolute bottom-2 right-2 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300 bg-accent text-black rounded-full p-3 shadow-xl flex items-center justify-center z-20"
+            className="absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 bg-white text-black rounded-full p-2.5 flex items-center justify-center z-20"
           >
-            <Play size={20} fill="black" className="ml-1" />
+            <Play size={18} fill="black" className="ml-0.5" />
           </motion.button>
         )}
       </div>
-      <div className="flex flex-col gap-1 min-h-[48px]">
-        <h3 className="text-white font-bold truncate text-[15px] mb-1 leading-tight group-hover:underline decoration-1 underline-offset-2">
+      <div className="flex flex-col gap-0.5 min-h-[40px]">
+        <h3 className="text-white font-medium truncate text-[14px] leading-tight">
           {displayTitle}
         </h3>
-        <p className="text-[#A7A7A7] text-[13px] truncate font-medium">
+        <p className="text-white/50 text-[12px] truncate">
           {safeSubtitle}
         </p>
       </div>

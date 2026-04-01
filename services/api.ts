@@ -1,7 +1,7 @@
 import { Song, Album, Artist, Playlist } from '../types';
 
 const BASE_URL = 'https://musicapi-gray.vercel.app/api';
-const YT_BASE_URL = 'https://yt-music-backend-qww6.onrender.com';
+const YT_BASE_URL = '/api';
 
 // --- OFFLINE STORAGE (IndexedDB) ---
 const DB_NAME = 'vibestream_offline_db';
@@ -159,7 +159,8 @@ export const downloadSong = async (song: Song) => {
     if (!url && song.downloadUrl.length === 0) {
          try {
              const streamData = await api.getStreamInfo(song.id);
-             if (streamData?.stream_url) url = streamData.stream_url;
+             if (streamData?.download_url) url = streamData.download_url;
+             else if (streamData?.stream_url) url = streamData.stream_url;
          } catch(e) { console.error(e); }
     }
 
@@ -228,34 +229,23 @@ export const api = {
   // New API: Get Real Stream URL
   getStreamInfo: async (id: string) => {
     try {
-        const res = await fetch(`${YT_BASE_URL}/play/${id}`);
-        return await res.json();
+        // Use the new stream-proxy endpoint
+        return { 
+            stream_url: `${YT_BASE_URL}/stream-proxy/${id}`,
+            download_url: `${YT_BASE_URL}/download/${id}?fmt=mp3`
+        };
     } catch(e) { return null; }
   },
 
-  // New API: Get Recommendations
+  // New API: Get Recommendations (Fallback to searching artist)
   getRecommendations: async (id: string): Promise<Song[]> => {
       try {
-          const res = await fetch(`${YT_BASE_URL}/recommend/${id}`);
+          const res = await fetch(`${YT_BASE_URL}/metadata/${id}`);
           const data = await res.json();
-          // Map to Song interface
-          return data.map((item: any) => ({
-             id: item.id,
-             name: item.title,
-             type: 'song',
-             album: { id: item.id, name: 'Single', url: '' },
-             year: new Date().getFullYear().toString(),
-             duration: parseDuration(item.duration),
-             language: 'Unknown',
-             genre: 'Unknown',
-             image: item.image ? [{ quality: 'high', url: item.image }] : [],
-             artists: {
-                primary: [{ id: 'yt', name: item.subtitle, role: 'Artist', image: [] }],
-                featured: [],
-                all: []
-             },
-             downloadUrl: [] 
-          }));
+          if (data.artist) {
+              return await api.searchSongs(data.artist, 'youtube');
+          }
+          return [];
       } catch(e) { return []; }
   },
 
@@ -266,7 +256,7 @@ export const api = {
 
     // Fetch YT if selected
     if (source === 'youtube' || source === 'both') {
-        promises.push(fetch(`${YT_BASE_URL}/search/${query}/1`).then(r => r.json()));
+        promises.push(fetch(`${YT_BASE_URL}/search?q=${encodeURIComponent(query)}&limit=15`).then(r => r.json()));
         ytIndex = promises.length - 1;
     }
 
@@ -282,19 +272,19 @@ export const api = {
     // Process YT Results
     if (ytIndex !== -1) {
         const ytRes = results[ytIndex];
-        if (ytRes.status === 'fulfilled' && Array.isArray(ytRes.value)) {
-            const mapped = ytRes.value.map((item: any) => ({
+        if (ytRes.status === 'fulfilled' && ytRes.value && Array.isArray(ytRes.value.results)) {
+            const mapped = ytRes.value.results.map((item: any) => ({
                  id: item.id,
                  name: item.title,
                  type: 'song' as const,
                  album: { id: item.id, name: 'Single', url: '' },
-                 year: '2024',
-                 duration: parseDuration(item.duration),
+                 year: new Date().getFullYear().toString(),
+                 duration: item.duration_seconds ? item.duration_seconds.toString() : parseDuration(item.duration),
                  language: 'Unknown',
                  genre: 'Unknown',
-                 image: [{ quality: 'high', url: item.image }],
+                 image: [{ quality: 'high', url: `${YT_BASE_URL}/thumbnail/${item.id}` }],
                  artists: {
-                    primary: [{ id: 'yt', name: item.subtitle, role: 'Artist', image: [] }],
+                    primary: [{ id: 'yt', name: item.artist || 'Unknown Artist', role: 'Artist', image: [] }],
                     featured: [],
                     all: []
                  },

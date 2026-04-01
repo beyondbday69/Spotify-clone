@@ -29,7 +29,7 @@ export const LoginPromo: React.FC = () => {
 
       {/* Header */}
       <div className="z-10 flex items-center justify-between p-4 sticky top-0 bg-transparent">
-          <button onClick={() => navigate(-1)} className="bg-black/50 p-2 rounded-full hover:bg-black/80 transition-colors">
+          <button onClick={() => navigate(-1)} className="bg-[#0A0A0A] p-2 rounded-full hover:bg-black transition-colors">
             <X size={24} className="text-white"/>
           </button>
       </div>
@@ -46,10 +46,10 @@ export const LoginPromo: React.FC = () => {
           </div>
           
           {/* Comparison Table */}
-          <div className="bg-[#121212] rounded-2xl p-5 md:p-8 shadow-2xl border border-white/5 mb-8 relative overflow-hidden">
+          <div className="bg-[#111] rounded-xl p-5 md:p-8 mb-8 relative overflow-hidden">
               <div className="absolute top-0 right-0 w-32 h-32 bg-accent/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
               
-              <div className="grid grid-cols-[1.5fr_1fr_1fr] mb-6 pb-4 border-b border-white/20">
+              <div className="grid grid-cols-[1.5fr_1fr_1fr] mb-6 pb-4 border-b border-white/10">
                   <span className="font-bold text-lg text-white">Feature</span>
                   <span className="font-bold text-center text-white/50">Guest</span>
                   <span className="font-bold text-center text-accent">Premium</span>
@@ -67,7 +67,7 @@ export const LoginPromo: React.FC = () => {
           <div className="flex flex-col gap-4 items-center">
               <button 
                 onClick={() => navigate('/login')}
-                className="w-full md:w-2/3 bg-white text-black font-bold py-4 rounded-full text-lg hover:scale-105 transition-transform shadow-[0_0_20px_rgba(255,255,255,0.3)]"
+                className="w-full md:w-2/3 bg-white text-black font-bold py-4 rounded-full text-lg hover:scale-105 transition-transform"
               >
                   LOG IN TO SYNC
               </button>

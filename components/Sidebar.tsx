@@ -15,9 +15,9 @@ export const Sidebar: React.FC = () => {
   const navigate = useNavigate();
 
   return (
-    <aside className="w-[320px] flex flex-col h-full gap-2 hidden xl:flex">
+    <aside className="w-[240px] xl:w-[280px] flex flex-col h-full gap-2 hidden md:flex shrink-0">
       {/* Navigation Block - Material 3 Style */}
-      <div className="bg-[#121212] rounded-xl py-4 px-3 flex flex-col gap-1">
+      <div className="bg-[#111] rounded-lg py-4 px-3 flex flex-col gap-1">
         <div className="px-5 py-2 mb-2">
             <img 
                 src="https://storage.googleapis.com/pr-newsroom-wp/1/2018/11/Spotify_Logo_RGB_White.png" 
@@ -27,7 +27,7 @@ export const Sidebar: React.FC = () => {
             />
         </div>
         
-        <NavLink to="/" className={({ isActive }) => `flex items-center gap-5 px-5 py-3 rounded-full transition-all duration-200 group ${isActive ? 'bg-white/10 text-white font-bold' : 'text-[#B3B3B3] hover:text-white hover:bg-white/5 font-medium'}`}>
+        <NavLink to="/" className={({ isActive }) => `flex items-center gap-5 px-5 py-3 rounded-full transition-all duration-200 group ${isActive ? 'bg-[#222222] text-white font-bold' : 'text-[#B3B3B3] hover:text-white hover:bg-[#1A1A1A] font-medium'}`}>
           {({ isActive }) => (
              <>
                <Home size={24} strokeWidth={isActive ? 0 : 2} fill={isActive ? "white" : "none"} />
@@ -36,7 +36,7 @@ export const Sidebar: React.FC = () => {
           )}
         </NavLink>
         
-        <NavLink to="/search" className={({ isActive }) => `flex items-center gap-5 px-5 py-3 rounded-full transition-all duration-200 group ${isActive ? 'bg-white/10 text-white font-bold' : 'text-[#B3B3B3] hover:text-white hover:bg-white/5 font-medium'}`}>
+        <NavLink to="/search" className={({ isActive }) => `flex items-center gap-5 px-5 py-3 rounded-full transition-all duration-200 group ${isActive ? 'bg-[#222222] text-white font-bold' : 'text-[#B3B3B3] hover:text-white hover:bg-[#1A1A1A] font-medium'}`}>
           {({ isActive }) => (
              <>
                <Search size={24} strokeWidth={isActive ? 3 : 2} />
@@ -47,7 +47,7 @@ export const Sidebar: React.FC = () => {
       </div>
 
       {/* Library Block */}
-      <div className="bg-[#121212] rounded-xl flex-1 flex flex-col overflow-hidden m-0 h-[64px]">
+      <div className="bg-[#111] rounded-lg flex-1 flex flex-col overflow-hidden m-0">
         {/* Library Header */}
         <div className="flex items-center justify-between px-6 py-4 z-10">
           <div 
@@ -69,8 +69,8 @@ export const Sidebar: React.FC = () => {
 
         {/* Filter Tags as Pills */}
         <div className="px-5 pb-2 flex gap-2">
-           <button className="px-4 py-1.5 bg-[#232323] hover:bg-[#2A2A2A] text-white text-xs font-medium rounded-full transition-colors border border-transparent hover:border-white/10">Playlists</button>
-           <button className="px-4 py-1.5 bg-[#232323] hover:bg-[#2A2A2A] text-white text-xs font-medium rounded-full transition-colors border border-transparent hover:border-white/10">Artists</button>
+           <button className="px-4 py-1.5 bg-[#222] hover:bg-[#333] text-white text-xs font-medium rounded-full transition-colors">Playlists</button>
+           <button className="px-4 py-1.5 bg-[#222] hover:bg-[#333] text-white text-xs font-medium rounded-full transition-colors">Artists</button>
         </div>
 
         {/* Library Items */}
@@ -128,7 +128,7 @@ export const Sidebar: React.FC = () => {
         </motion.div>
         
         {/* User / Login Section */}
-        <div className="p-4 border-t border-[#282828] mt-auto">
+        <div className="p-4 mt-auto">
              {currentUser ? (
                  <div 
                     onClick={() => navigate('/profile')}

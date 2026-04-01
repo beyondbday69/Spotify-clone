@@ -16,7 +16,7 @@ export const Social: React.FC = () => {
             </p>
         </div>
 
-        <div className="bg-[#181818] p-6 rounded-xl border border-white/5 max-w-sm w-full mt-4 flex flex-col gap-4">
+        <div className="bg-[#111] p-6 rounded-xl max-w-sm w-full mt-4 flex flex-col gap-4">
             <div className="flex items-center gap-4">
                 <Bot size={24} className="text-blue-400" />
                 <div className="text-left">
@@ -24,7 +24,7 @@ export const Social: React.FC = () => {
                     <p className="text-xs text-[#777]">Implementing smarter recommendations</p>
                 </div>
             </div>
-            <div className="h-[1px] bg-white/10 w-full"></div>
+            <div className="h-[1px] bg-[#222222] w-full"></div>
             <div className="flex items-center gap-4">
                 <Hammer size={24} className="text-orange-400" />
                 <div className="text-left">

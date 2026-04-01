@@ -319,10 +319,21 @@ export const authService = {
      if (!auth.currentUser) return;
      const userRef = doc(db, "users", auth.currentUser.uid);
      
+     let sanitizedSong = null;
+     if (song) {
+         sanitizedSong = {
+             id: song.id,
+             name: song.name,
+             album: song.album,
+             artists: song.artists,
+             image: song.image
+         };
+     }
+
      const activity = cleanData({
          status,
          timestamp: Date.now(),
-         song: song || null
+         song: sanitizedSong
      });
 
      await updateDoc(userRef, {

@@ -36,14 +36,14 @@ export const ChatWindow: React.FC = () => {
         initial={{ y: 20, opacity: 0, scale: 0.95 }}
         animate={{ y: 0, opacity: 1, scale: 1 }}
         exit={{ y: 20, opacity: 0 }}
-        className="fixed bottom-24 right-4 w-[360px] h-[500px] bg-[#121212] rounded-2xl border border-[#282828] shadow-[0_8px_30px_rgba(0,0,0,0.5)] flex flex-col z-[100] overflow-hidden font-sans"
+        className="fixed bottom-24 right-4 w-[360px] h-[500px] bg-[#111] rounded-xl flex flex-col z-[100] overflow-hidden font-sans"
     >
         
         {/* Header */}
-        <div className="bg-[#181818]/95 backdrop-blur-md p-3 flex items-center justify-between border-b border-[#282828]">
+        <div className="bg-[#111] p-3 flex items-center justify-between border-b border-white/5">
             <div className="flex items-center gap-3">
                 <div className="relative">
-                    <img src={friend.image || `https://ui-avatars.com/api/?name=${friend.name}&background=${themeHex}&color=fff`} className="w-10 h-10 rounded-full object-cover shadow-md" alt="" />
+                    <img src={friend.image || `https://ui-avatars.com/api/?name=${friend.name}&background=${themeHex}&color=fff`} className="w-10 h-10 rounded-full object-cover" alt="" />
                     {friend.status === 'listening' ? (
                         <div className="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 bg-accent rounded-full border-2 border-[#121212] flex items-center justify-center">
                             <Music size={8} fill="black" className="text-black" />
@@ -80,7 +80,7 @@ export const ChatWindow: React.FC = () => {
         </div>
 
         {/* Messages Area */}
-        <div className="flex-1 overflow-y-auto p-4 flex flex-col gap-2 bg-[#000000] bg-opacity-40">
+        <div className="flex-1 overflow-y-auto p-4 flex flex-col gap-2 bg-black">
              <div className="text-[10px] text-center text-[#444] my-2 uppercase tracking-widest font-bold">
                  Encrypted Chat
              </div>
@@ -92,10 +92,10 @@ export const ChatWindow: React.FC = () => {
                  return (
                      <div key={msg.id} className={`flex flex-col ${isMe ? 'items-end' : 'items-start'} ${isConsecutive ? 'mt-0.5' : 'mt-2'}`}>
                          <div 
-                            className={`max-w-[75%] px-3.5 py-2 text-[13px] shadow-sm leading-relaxed relative group ${
+                            className={`max-w-[75%] px-3.5 py-2 text-[13px] leading-relaxed relative group ${
                                 isMe 
-                                ? 'bg-accent text-black rounded-2xl rounded-tr-sm' 
-                                : 'bg-[#2A2A2A] text-white rounded-2xl rounded-tl-sm'
+                                ? 'bg-accent text-black rounded-lg rounded-tr-sm' 
+                                : 'bg-[#2A2A2A] text-white rounded-lg rounded-tl-sm'
                             }`}
                          >
                              {msg.text}
@@ -110,7 +110,7 @@ export const ChatWindow: React.FC = () => {
         </div>
 
         {/* Input Area */}
-        <form onSubmit={handleSend} className="p-3 bg-[#181818] border-t border-[#282828] flex items-center gap-2">
+        <form onSubmit={handleSend} className="p-3 bg-[#111] border-t border-white/5 flex items-center gap-2">
             <input 
                 value={text}
                 onChange={(e) => setText(e.target.value)}
@@ -120,7 +120,7 @@ export const ChatWindow: React.FC = () => {
             <button 
                 type="submit" 
                 disabled={!text.trim()} 
-                className="p-2.5 bg-accent text-black rounded-full hover:scale-105 active:scale-95 disabled:opacity-50 disabled:scale-100 transition-all shadow-lg"
+                className="p-2.5 bg-accent text-black rounded-full hover:scale-105 active:scale-95 disabled:opacity-50 disabled:scale-100 transition-all"
             >
                 <Send size={18} fill="black" className="ml-0.5" />
             </button>

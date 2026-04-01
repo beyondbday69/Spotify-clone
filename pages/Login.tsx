@@ -206,7 +206,7 @@ export const Login: React.FC = () => {
                   disabled={loading}
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
-                  className="bg-accent text-black font-bold text-base py-3.5 rounded-full mt-4 flex items-center justify-center uppercase tracking-widest shadow-lg hover:brightness-110 transition-colors"
+                  className="bg-accent text-black font-bold text-base py-3.5 rounded-full mt-4 flex items-center justify-center uppercase tracking-widest hover:brightness-110 transition-colors"
                >
                   {loading ? <Loader2 size={20} className="animate-spin" /> : 'Log In'}
                </motion.button>

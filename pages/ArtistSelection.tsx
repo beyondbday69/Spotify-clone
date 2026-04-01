@@ -4,7 +4,7 @@ import { Search, CheckCircle2, ChevronLeft, Loader2 } from 'lucide-react';
 import { api, getImageUrl } from '../services/api';
 import { Artist } from '../types';
 import { usePlayerStore } from '../store/playerStore';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from 'motion/react';
 
 const POPULAR_ARTISTS = [
   "Taylor Swift", "The Weeknd", "Drake", "Bad Bunny", "BTS", 
@@ -75,7 +75,7 @@ export const ArtistSelection: React.FC = () => {
     <div className="min-h-screen bg-black text-white flex flex-col pt-4 relative">
       
       {/* Header */}
-      <div className="px-6 flex flex-col gap-4 sticky top-0 bg-black/95 backdrop-blur-sm z-30 pb-4">
+      <div className="px-6 flex flex-col gap-4 sticky top-0 bg-black/95  z-30 pb-4">
           <div className="flex items-center justify-between">
               <button 
                 onClick={() => navigate(-1)} 
@@ -124,7 +124,7 @@ export const ArtistSelection: React.FC = () => {
                                   <motion.img 
                                       src={getImageUrl(artist.image)} 
                                       alt={artist.name} 
-                                      className={`w-full h-full object-cover rounded-full shadow-lg transition-all duration-300 ${isSelected ? 'brightness-50' : 'brightness-100 group-hover:brightness-90'}`}
+                                      className={`w-full h-full object-cover rounded-full transition-all duration-300 ${isSelected ? 'brightness-50' : 'brightness-100 group-hover:brightness-90'}`}
                                       animate={{ scale: isSelected ? 0.9 : 1 }}
                                       transition={{ duration: 0.2, ease: "easeOut" }}
                                   />
@@ -135,7 +135,7 @@ export const ArtistSelection: React.FC = () => {
                                             animate={{ opacity: 1, scale: 1 }}
                                             exit={{ opacity: 0, scale: 0 }}
                                             transition={{ duration: 0.2, ease: "backOut" }}
-                                            className="absolute top-0 right-0 w-8 h-8 bg-white rounded-full flex items-center justify-center shadow-md z-10"
+                                            className="absolute top-0 right-0 w-8 h-8 bg-white rounded-full flex items-center justify-center z-10"
                                         >
                                             <CheckCircle2 size={20} className="text-accent fill-white bg-white rounded-full" />
                                         </motion.div>
@@ -168,7 +168,7 @@ export const ArtistSelection: React.FC = () => {
              onClick={handleDone}
              whileHover={{ scale: 1.05 }}
              whileTap={{ scale: 0.95 }}
-             className="bg-white text-black font-bold text-base py-3 px-12 rounded-full shadow-[0_4px_20px_rgba(255,255,255,0.2)]"
+             className="bg-white text-black font-bold text-base py-3 px-12 rounded-full"
           >
               Done
           </motion.button>

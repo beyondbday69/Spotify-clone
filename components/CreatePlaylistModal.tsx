@@ -108,22 +108,22 @@ export const CreatePlaylistModal: React.FC<CreatePlaylistModalProps> = ({ onClos
   };
 
   return (
-    <div className="fixed inset-0 z-[250] flex items-end md:items-center justify-center p-0 md:p-4 bg-black/80 backdrop-blur-md">
+    <div className="fixed inset-0 z-[250] flex items-end md:items-center justify-center p-0 md:p-4 bg-black ">
       <motion.div 
         initial={{ y: 50, opacity: 0, scale: 0.95 }}
         animate={{ y: 0, opacity: 1, scale: 1 }}
         exit={{ y: 50, opacity: 0, scale: 0.95 }}
         transition={{ type: "tween", duration: 0.25, ease: "easeOut" }}
-        className="bg-[#121212] w-full max-w-lg rounded-t-2xl md:rounded-2xl border border-white/10 shadow-2xl overflow-hidden flex flex-col max-h-[95dvh]"
+        className="bg-[#111] w-full max-w-lg rounded-t-xl md:rounded-xl overflow-hidden flex flex-col max-h-[95dvh]"
       >
         
         {/* Header */}
-        <div className="flex items-center justify-between p-4 border-b border-white/5 bg-[#121212]">
+        <div className="flex items-center justify-between p-4 border-b border-white/5 bg-[#111]">
             <h2 className="text-xl font-bold text-white flex items-center gap-2">
                 Create Playlist
                 {selectedSeed && <Sparkles size={16} className="text-accent" />}
             </h2>
-            <button onClick={onClose} className="p-2 hover:bg-white/10 rounded-full text-white/70 hover:text-white transition-colors">
+            <button onClick={onClose} className="p-2 hover:bg-[#222] rounded-full text-white/70 hover:text-white transition-colors">
                 <X size={20} />
             </button>
         </div>
@@ -137,7 +137,7 @@ export const CreatePlaylistModal: React.FC<CreatePlaylistModalProps> = ({ onClos
                     <div className="flex justify-center shrink-0">
                         <div 
                             onClick={() => fileInputRef.current?.click()}
-                            className="w-40 h-40 bg-[#282828] rounded-lg flex flex-col items-center justify-center cursor-pointer hover:bg-[#333] transition-colors group relative overflow-hidden border-2 border-dashed border-white/10 hover:border-white/30 shadow-inner"
+                            className="w-40 h-40 bg-[#222] rounded-lg flex flex-col items-center justify-center cursor-pointer hover:bg-[#333] transition-colors group relative overflow-hidden"
                         >
                             {preview ? (
                                 <img src={preview} alt="Preview" className="w-full h-full object-cover" />
@@ -150,7 +150,7 @@ export const CreatePlaylistModal: React.FC<CreatePlaylistModalProps> = ({ onClos
                                 </>
                             )}
                             
-                            <div className="absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                            <div className="absolute inset-0 bg-[#0A0A0A] flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
                                 <Upload size={24} className="text-white" />
                             </div>
                         </div>
@@ -172,7 +172,7 @@ export const CreatePlaylistModal: React.FC<CreatePlaylistModalProps> = ({ onClos
                                 value={name}
                                 onChange={(e) => setName(e.target.value)}
                                 placeholder="My Playlist"
-                                className="bg-[#282828] text-white p-3 rounded-md focus:outline-none focus:ring-1 focus:ring-white/30 font-medium w-full"
+                                className="bg-[#222] text-white p-3 rounded-md focus:outline-none focus:ring-1 focus:ring-white/30 font-medium w-full"
                                 autoFocus={!selectedSeed}
                             />
                         </div>
@@ -182,14 +182,14 @@ export const CreatePlaylistModal: React.FC<CreatePlaylistModalProps> = ({ onClos
                                 value={description}
                                 onChange={(e) => setDescription(e.target.value)}
                                 placeholder="Add an optional description"
-                                className="bg-[#282828] text-white p-3 rounded-md focus:outline-none focus:ring-1 focus:ring-white/30 resize-none h-20 text-sm w-full"
+                                className="bg-[#222] text-white p-3 rounded-md focus:outline-none focus:ring-1 focus:ring-white/30 resize-none h-20 text-sm w-full"
                             />
                         </div>
                     </div>
                 </div>
 
                 {/* AI Smart Fill Section */}
-                <div className="bg-gradient-to-r from-accent/10 to-transparent p-4 rounded-xl border border-accent/20 relative">
+                <div className="bg-[#1A1A1A] p-4 rounded-lg relative">
                     <div className="flex items-center gap-2 mb-3">
                         <Sparkles size={18} className="text-accent" />
                         <span className="text-sm font-bold text-white">AI Smart Fill</span>
@@ -203,18 +203,18 @@ export const CreatePlaylistModal: React.FC<CreatePlaylistModalProps> = ({ onClos
                                 value={seedQuery}
                                 onChange={(e) => setSeedQuery(e.target.value)}
                                 placeholder="Pick a song to auto-fill playlist..."
-                                className="w-full bg-[#121212] text-white pl-9 pr-4 py-2.5 rounded-lg text-sm border border-white/10 focus:border-accent focus:outline-none transition-colors"
+                                className="w-full bg-[#222] text-white pl-9 pr-4 py-2.5 rounded-lg text-sm focus:outline-none transition-colors"
                             />
                             {isSearchingSeed && <Loader2 size={16} className="animate-spin absolute right-3 top-1/2 -translate-y-1/2 text-white/50" />}
                             
                             {/* Dropdown Results */}
                             {seedResults.length > 0 && (
-                                <div className="absolute top-full left-0 right-0 mt-2 bg-[#181818] border border-white/10 rounded-lg shadow-xl z-20 overflow-hidden">
+                                <div className="absolute top-full left-0 right-0 mt-2 bg-[#222] rounded-lg z-20 overflow-hidden">
                                     {seedResults.map(song => (
                                         <div 
                                             key={song.id} 
                                             onClick={() => handleSelectSeed(song)}
-                                            className="flex items-center gap-3 p-2 hover:bg-white/10 cursor-pointer transition-colors"
+                                            className="flex items-center gap-3 p-2 hover:bg-[#333] cursor-pointer transition-colors"
                                         >
                                             <img src={getImageUrl(song.image)} className="w-8 h-8 rounded object-cover" alt="" />
                                             <div className="flex flex-col overflow-hidden">
@@ -227,7 +227,7 @@ export const CreatePlaylistModal: React.FC<CreatePlaylistModalProps> = ({ onClos
                             )}
                         </div>
                     ) : (
-                        <div className="flex items-center justify-between bg-accent/20 p-2 rounded-lg border border-accent/30">
+                        <div className="flex items-center justify-between bg-[#222] p-2 rounded-lg">
                             <div className="flex items-center gap-3">
                                 <img src={getImageUrl(selectedSeed.image)} className="w-10 h-10 rounded object-cover" alt="" />
                                 <div className="flex flex-col">
@@ -247,7 +247,7 @@ export const CreatePlaylistModal: React.FC<CreatePlaylistModalProps> = ({ onClos
                     <button 
                         type="submit" 
                         disabled={!name.trim() || isLoading}
-                        className="bg-white text-black font-bold py-3 px-10 rounded-full hover:scale-105 active:scale-95 transition-all disabled:opacity-50 disabled:scale-100 flex items-center gap-2 shadow-[0_0_15px_rgba(255,255,255,0.2)]"
+                        className="bg-white text-black font-bold py-3 px-10 rounded-full hover:scale-105 active:scale-95 transition-all disabled:opacity-50 disabled:scale-100 flex items-center gap-2"
                     >
                         {isLoading && <Loader2 size={16} className="animate-spin" />}
                         {selectedSeed ? 'Generate Playlist' : 'Create'}
