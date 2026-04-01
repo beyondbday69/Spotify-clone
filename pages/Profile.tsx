@@ -3,9 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import { usePlayerStore } from '../store/playerStore';
 import { uploadToCloudinary } from '../services/api';
 import { ArrowLeft, Camera, Loader2, LogOut, Cloud, SignalHigh, SignalMedium, SignalLow, Music2, Users, ChevronRight, Mail, Shield, RotateCcw, Youtube, Library, Globe, Layers, DownloadCloud, Palette, Sparkles, Settings } from 'lucide-react';
-import { motion } from 'motion/react';
+import { motion, Variants } from 'motion/react';
 
-const containerVariants = {
+const containerVariants: Variants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
@@ -16,7 +16,7 @@ const containerVariants = {
   }
 };
 
-const itemVariants = {
+const itemVariants: Variants = {
   hidden: { opacity: 0, y: 20 },
   visible: { 
     opacity: 1, 
@@ -25,7 +25,7 @@ const itemVariants = {
   }
 };
 
-const heroVariants = {
+const heroVariants: Variants = {
   hidden: { opacity: 0, scale: 0.9 },
   visible: { 
     opacity: 1, 
