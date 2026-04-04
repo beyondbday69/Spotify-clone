@@ -11,13 +11,6 @@ const navItems = [
   { path: '/profile', icon: User, label: 'Profile' },
 ];
 
-const transitionSpec = {
-  type: "spring",
-  damping: 30,
-  stiffness: 300,
-  mass: 0.8
-} as const;
-
 export const FloatingNav: React.FC = () => {
   const location = useLocation();
   const { navPosition, setNavPosition } = useUiStore();
@@ -50,12 +43,8 @@ export const FloatingNav: React.FC = () => {
   };
 
   return (
-    <motion.div 
-      layout
-      transition={transitionSpec}
-      className={`fixed z-[150] flex justify-center pointer-events-none ${positionClasses[currentPos]}`}
-    >
-      <div className={`flex items-center gap-1 p-1.5 bg-[#111] rounded-2xl border border-white/10 pointer-events-auto ${isVertical ? 'flex-col' : 'flex-row'}`}>
+    <div className={`fixed z-[150] flex justify-center pointer-events-none transition-all duration-500 ease-in-out ${positionClasses[currentPos]}`}>
+      <div className={`flex items-center gap-1 p-1.5 bg-black border border-white/10 rounded-2xl pointer-events-auto ${isVertical ? 'flex-col' : 'flex-row'}`}>
         
         {navItems.map((item) => {
           const isActive = location.pathname === item.path;
@@ -70,7 +59,7 @@ export const FloatingNav: React.FC = () => {
                   <motion.div
                     layoutId="nav-pill"
                     className="absolute inset-0 bg-white rounded-md -z-10"
-                    transition={{ type: "spring", stiffness: 350, damping: 30, mass: 0.8 }}
+                    transition={{ type: "spring", stiffness: 400, damping: 30 }}
                   />
                 )}
                 <motion.div layout="position" className="shrink-0">
@@ -129,6 +118,6 @@ export const FloatingNav: React.FC = () => {
         )}
 
       </div>
-    </motion.div>
+    </div>
   );
 };

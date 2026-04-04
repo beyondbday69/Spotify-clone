@@ -1,8 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { HashRouter, Routes, Route, useLocation } from 'react-router-dom';
 import { FloatingNav } from './components/FloatingNav';
-import { Sidebar } from './components/Sidebar';
-import { FriendsActivity } from './components/FriendsActivity';
 import { useUiStore } from './store/uiStore';
 // import { FriendsActivity } from './components/FriendsActivity'; // MAINTENANCE
 import { Player } from './components/Player';
@@ -22,7 +20,6 @@ import { Signup } from './pages/Signup';
 import { Profile } from './pages/Profile';
 import { Social } from './pages/Social';
 import { ArtistSelection } from './pages/ArtistSelection';
-import { ThankYou } from './pages/ThankYou';
 import { motion, AnimatePresence } from 'motion/react';
 import { usePlayerStore } from './store/playerStore';
 import { WifiOff } from 'lucide-react';
@@ -62,7 +59,6 @@ const AnimatedRoutes: React.FC = () => {
         <Route path="/signup" element={<PageTransition><Signup /></PageTransition>} />
         <Route path="/profile" element={<PageTransition><Profile /></PageTransition>} />
         <Route path="/artists/select" element={<PageTransition><ArtistSelection /></PageTransition>} />
-        <Route path="/thank-you" element={<PageTransition><ThankYou /></PageTransition>} />
       </Routes>
     </AnimatePresence>
   );
@@ -72,7 +68,7 @@ const AnimatedRoutes: React.FC = () => {
 const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const location = useLocation();
   const { isOfflineMode, isFullScreen } = usePlayerStore();
-  const { navPosition, setSidebarCollapsed } = useUiStore();
+  const { navPosition } = useUiStore();
   // Pages that don't need sidebar/player
   const isFullScreenPage = ['/premium', '/login', '/signup', '/artists/select'].includes(location.pathname);
   const mainRef = useRef<HTMLElement>(null);
@@ -84,21 +80,12 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  // Sync sidebar collapse with player fullscreen
-  useEffect(() => {
-    if (isFullScreen) {
-      setSidebarCollapsed(true);
-    } else {
-      setSidebarCollapsed(false);
-    }
-  }, [isFullScreen, setSidebarCollapsed]);
-
   const currentNavPos = isMobile ? 'bottom' : navPosition;
 
   // Calculate padding based on nav position
   const getPaddingClasses = () => {
     if (isFullScreenPage) return '';
-    if (currentNavPos === 'bottom') return 'pb-32 md:pb-24';
+    if (currentNavPos === 'bottom') return 'pb-40';
     if (currentNavPos === 'top') return 'pt-24';
     if (currentNavPos === 'left') return 'pl-24';
     if (currentNavPos === 'right') return 'pr-24';
@@ -113,45 +100,38 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   }, [location.pathname]);
 
   return (
-    <div className="flex h-[100dvh] w-screen bg-black text-white overflow-hidden relative p-2 gap-2">
+    <div className="flex h-[100dvh] w-screen bg-black text-white overflow-hidden relative p-0 md:p-2 md:gap-2">
       <AudioController /> {/* Persistent Audio Logic */}
       
-      {!isFullScreenPage && <Sidebar />}
+      {/* Global Offline Indicator */}
+      <AnimatePresence>
+          {isOfflineMode && !isFullScreenPage && (
+              <motion.div 
+                initial={{ y: -50, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                exit={{ y: -50, opacity: 0 }}
+                transition={{ type: "tween", duration: 0.3 }}
+                className="absolute top-0 left-0 right-0 z-[100] bg-black  flex items-center justify-center p-1 border-b border-white/10"
+              >
+                  <div className="flex items-center gap-2 text-xs font-bold text-[#B3B3B3]">
+                      <WifiOff size={12} />
+                      <span>Offline Mode</span>
+                  </div>
+              </motion.div>
+          )}
+      </AnimatePresence>
 
-      <div className="flex-1 flex flex-col min-w-0 h-full relative">
-        {/* Global Offline Indicator */}
-        <AnimatePresence>
-            {isOfflineMode && !isFullScreenPage && (
-                <motion.div 
-                  initial={{ y: -50, opacity: 0 }}
-                  animate={{ y: 0, opacity: 1 }}
-                  exit={{ y: -50, opacity: 0 }}
-                  transition={{ type: "tween", duration: 0.3 }}
-                  className="absolute top-0 left-0 right-0 z-[100] bg-black  flex items-center justify-center p-1 border-b border-white/10"
-                >
-                    <div className="flex items-center gap-2 text-xs font-bold text-[#B3B3B3]">
-                        <WifiOff size={12} />
-                        <span>Offline Mode</span>
-                    </div>
-                </motion.div>
-            )}
-        </AnimatePresence>
-        
-        <motion.main 
-          layout
-          ref={mainRef}
-          className={`flex-1 relative overflow-y-auto bg-[#111] rounded-lg no-scrollbar overscroll-none ${isFullScreenPage ? 'z-50 !m-0 !rounded-none' : ''} ${getPaddingClasses()}`}
-        >
-           {/* Main Content */}
-          {children}
-        </motion.main>
-      </div>
-
-      {!isFullScreenPage && !isFullScreen && <FriendsActivity />}
+      <main 
+        ref={mainRef}
+        className={`flex-1 relative overflow-y-auto bg-black md:rounded-lg md:border md:border-white/10 no-scrollbar overscroll-none transition-all duration-300 ease-out ${isFullScreenPage ? 'z-50 !m-0 !rounded-none !border-none !bg-black' : ''} ${isFullScreen && !isFullScreenPage ? 'md:mr-[358px] lg:mr-[288px] xl:mr-[358px]' : (!isFullScreenPage ? 'md:pb-24' : '')} ${getPaddingClasses()}`}
+      >
+         {/* Main Content */}
+        {children}
+      </main>
 
       {!isFullScreenPage && <DownloadProgress />}
       {!isFullScreenPage && <Player />}
-      {isMobile && !isFullScreenPage && <FloatingNav />}
+      {!isFullScreenPage && <FloatingNav />}
     </div>
   );
 };
