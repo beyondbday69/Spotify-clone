@@ -52,6 +52,7 @@ export const Search: React.FC = () => {
   const [query, setQuery] = useState('');
   const [results, setResults] = useState<{ songs: Song[], albums: Album[], artists: Artist[] }>({ songs: [], albums: [], artists: [] });
   const [isLoading, setIsLoading] = useState(false);
+  const [hasSearched, setHasSearched] = useState(false);
   
   const { playSong, likedSongs, toggleLike } = usePlayerStore();
   const navigate = useNavigate();
@@ -59,51 +60,50 @@ export const Search: React.FC = () => {
   // AbortController to handle race conditions
   const abortControllerRef = useRef<AbortController | null>(null);
 
-  useEffect(() => {
-    // Cancel any ongoing fetch if query changes
-    if (abortControllerRef.current) {
-        abortControllerRef.current.abort();
-    }
-
-    if (!query.trim()) {
+  const performSearch = async (searchQuery: string) => {
+    if (!searchQuery.trim()) {
         setResults({ songs: [], albums: [], artists: [] });
         setIsLoading(false);
+        setHasSearched(false);
         return;
     }
 
     setIsLoading(true);
+    setHasSearched(true);
+    
+    // Cancel any ongoing fetch
+    if (abortControllerRef.current) {
+        abortControllerRef.current.abort();
+    }
+    abortControllerRef.current = new AbortController();
 
-    const timer = setTimeout(async () => {
-        abortControllerRef.current = new AbortController();
-        try {
-           const [songs, albums, artists] = await Promise.all([
-              api.searchSongs(query),
-              api.searchAlbums(query),
-              api.searchArtists(query)
-           ]);
+    try {
+       const [songs, albums, artists] = await Promise.all([
+          api.searchSongs(searchQuery),
+          api.searchAlbums(searchQuery),
+          api.searchArtists(searchQuery)
+       ]);
 
-           // Only update if not aborted
-           if (!abortControllerRef.current?.signal.aborted) {
-               setResults({ songs, albums, artists });
-           }
-        } catch (e: any) {
-            if (e.name !== 'AbortError') {
-                console.error(e);
-            }
-        } finally {
-            if (!abortControllerRef.current?.signal.aborted) {
-                setIsLoading(false);
-            }
+       // Only update if not aborted
+       if (!abortControllerRef.current?.signal.aborted) {
+           setResults({ songs, albums, artists });
+       }
+    } catch (e: any) {
+        if (e.name !== 'AbortError') {
+            console.error(e);
         }
-    }, 300);
-
-    return () => clearTimeout(timer);
-  }, [query]);
+    } finally {
+        if (!abortControllerRef.current?.signal.aborted) {
+            setIsLoading(false);
+        }
+    }
+  };
 
   const clearSearch = () => {
     setQuery('');
     setResults({ songs: [], albums: [], artists: [] });
     setIsLoading(false);
+    setHasSearched(false);
   };
 
   const handleResultClick = (item: SearchResult) => {
@@ -119,6 +119,7 @@ export const Search: React.FC = () => {
   const handleKeywordSearch = (e: React.KeyboardEvent<HTMLInputElement>) => {
       if (e.key === 'Enter' && query.trim()) {
           (e.target as HTMLInputElement).blur();
+          performSearch(query);
       }
   };
 
@@ -142,10 +143,14 @@ export const Search: React.FC = () => {
                  <input 
                     type="text" 
                     value={query}
-                    onChange={(e) => setQuery(e.target.value)}
+                    onChange={(e) => {
+                        setQuery(e.target.value);
+                        setHasSearched(false);
+                        setResults({ songs: [], albums: [], artists: [] });
+                    }}
                     onKeyDown={handleKeywordSearch}
                     placeholder="What do you want to listen to?" 
-                    className="w-full bg-[#111] text-white pl-12 pr-12 py-3 rounded-full font-medium text-base placeholder-white/50 focus:outline-none focus:ring-1 focus:ring-white/20 transition-all"
+                    className="w-full bg-[#111] text-white pl-12 pr-12 py-3 rounded-full font-medium text-base placeholder-white/50 focus:outline-none"
                     autoFocus={false}
                  />
                  {query && (
@@ -170,7 +175,10 @@ export const Search: React.FC = () => {
                               whileHover={{ scale: 1.02, y: -2 }}
                               whileTap={{ scale: 0.98 }}
                               className={`${cat.color} h-[100px] md:h-[120px] rounded-md p-4 relative overflow-hidden cursor-pointer`}
-                              onClick={() => setQuery(cat.title)}
+                              onClick={() => {
+                                  setQuery(cat.title);
+                                  performSearch(cat.title);
+                              }}
                           >
                               <span className="text-white font-bold text-lg md:text-xl absolute top-4 left-4 max-w-[70%] leading-tight">{cat.title}</span>
                               {/* Decorative rotated box */}
@@ -182,10 +190,17 @@ export const Search: React.FC = () => {
           )}
 
           {/* VIEW 2: No Results State */}
-          {query && !isLoading && results.songs.length === 0 && results.artists.length === 0 && (
+          {query && !isLoading && hasSearched && results.songs.length === 0 && results.artists.length === 0 && (
               <div className="px-6 text-center py-20 text-white/60">
                   <p className="text-lg font-medium">No results found for "{query}"</p>
                   <p className="text-sm mt-2">Try searching for artists, songs, or albums.</p>
+              </div>
+          )}
+
+          {/* VIEW: Press Enter to search */}
+          {query && !isLoading && !hasSearched && (
+              <div className="px-6 text-center py-20 text-white/60">
+                  <p className="text-lg font-medium">Press Enter to search</p>
               </div>
           )}
 

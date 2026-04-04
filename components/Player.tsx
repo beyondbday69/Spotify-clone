@@ -250,7 +250,7 @@ export const Player: React.FC = () => {
                         className="flex-1 flex flex-col justify-center items-center min-h-0 py-1 md:py-4 -mx-6"
                         onClick={() => setShowArtVideo(!showArtVideo)}
                     >
-                        <div className="relative w-full aspect-video md:max-w-[450px] rounded-2xl overflow-hidden bg-[#111] cursor-pointer shadow-2xl border border-white/5">
+                        <div className="relative w-full aspect-square md:max-w-[450px] rounded-2xl overflow-hidden bg-[#111] cursor-pointer shadow-2xl border border-white/5">
                             <AnimatePresence mode="wait">
                                 {showArtVideo ? (
                                     <motion.div 
@@ -266,7 +266,7 @@ export const Player: React.FC = () => {
                                             loop 
                                             muted 
                                             playsInline 
-                                            className="w-full h-full object-cover object-center scale-[1.05]"
+                                            className="w-full h-full object-contain object-center scale-[0.9]"
                                             onError={() => setShowArtVideo(false)}
                                         />
                                     </motion.div>
@@ -278,7 +278,7 @@ export const Player: React.FC = () => {
                                         exit={{ opacity: 0 }}
                                         src={imageUrl} 
                                         alt="Cover" 
-                                        className="absolute inset-0 w-full h-full object-cover object-center scale-[1.05]" 
+                                        className="absolute inset-0 w-full h-full object-contain object-center scale-[0.9]" 
                                     />
                                 )}
                             </AnimatePresence>

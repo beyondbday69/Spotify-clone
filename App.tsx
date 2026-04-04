@@ -1,6 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { HashRouter, Routes, Route, useLocation } from 'react-router-dom';
 import { FloatingNav } from './components/FloatingNav';
+import { Sidebar } from './components/Sidebar';
+import { FriendsActivity } from './components/FriendsActivity';
 import { useUiStore } from './store/uiStore';
 // import { FriendsActivity } from './components/FriendsActivity'; // MAINTENANCE
 import { Player } from './components/Player';
@@ -68,7 +70,7 @@ const AnimatedRoutes: React.FC = () => {
 const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const location = useLocation();
   const { isOfflineMode, isFullScreen } = usePlayerStore();
-  const { navPosition } = useUiStore();
+  const { navPosition, setSidebarCollapsed } = useUiStore();
   // Pages that don't need sidebar/player
   const isFullScreenPage = ['/premium', '/login', '/signup', '/artists/select'].includes(location.pathname);
   const mainRef = useRef<HTMLElement>(null);
@@ -79,6 +81,15 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
+
+  // Sync sidebar collapse with player fullscreen
+  useEffect(() => {
+    if (isFullScreen) {
+      setSidebarCollapsed(true);
+    } else {
+      setSidebarCollapsed(false);
+    }
+  }, [isFullScreen, setSidebarCollapsed]);
 
   const currentNavPos = isMobile ? 'bottom' : navPosition;
 
@@ -100,39 +111,45 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   }, [location.pathname]);
 
   return (
-    <div className="flex h-[100dvh] w-screen bg-black text-white overflow-hidden relative">
+    <div className="flex h-[100dvh] w-screen bg-black text-white overflow-hidden relative p-2 gap-2">
       <AudioController /> {/* Persistent Audio Logic */}
       
-      {/* Global Offline Indicator */}
-      <AnimatePresence>
-          {isOfflineMode && !isFullScreenPage && (
-              <motion.div 
-                initial={{ y: -50, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                exit={{ y: -50, opacity: 0 }}
-                transition={{ type: "tween", duration: 0.3 }}
-                className="absolute top-0 left-0 right-0 z-[100] bg-black  flex items-center justify-center p-1 border-b border-white/10"
-              >
-                  <div className="flex items-center gap-2 text-xs font-bold text-[#B3B3B3]">
-                      <WifiOff size={12} />
-                      <span>Offline Mode</span>
-                  </div>
-              </motion.div>
-          )}
-      </AnimatePresence>
-      
-      <motion.main 
-        layout
-        ref={mainRef}
-        className={`flex-1 relative overflow-y-auto bg-black no-scrollbar overscroll-none ${isFullScreenPage ? 'z-50 !m-0 !rounded-none' : ''} ${isFullScreen && !isFullScreenPage ? 'md:pr-[350px] lg:pr-[280px] xl:pr-[350px]' : ''} ${getPaddingClasses()}`}
-      >
-         {/* Main Content */}
-        {children}
-      </motion.main>
+      {!isFullScreenPage && <Sidebar />}
+
+      <div className="flex-1 flex flex-col min-w-0 h-full relative">
+        {/* Global Offline Indicator */}
+        <AnimatePresence>
+            {isOfflineMode && !isFullScreenPage && (
+                <motion.div 
+                  initial={{ y: -50, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  exit={{ y: -50, opacity: 0 }}
+                  transition={{ type: "tween", duration: 0.3 }}
+                  className="absolute top-0 left-0 right-0 z-[100] bg-black  flex items-center justify-center p-1 border-b border-white/10"
+                >
+                    <div className="flex items-center gap-2 text-xs font-bold text-[#B3B3B3]">
+                        <WifiOff size={12} />
+                        <span>Offline Mode</span>
+                    </div>
+                </motion.div>
+            )}
+        </AnimatePresence>
+        
+        <motion.main 
+          layout
+          ref={mainRef}
+          className={`flex-1 relative overflow-y-auto bg-[#111] rounded-lg no-scrollbar overscroll-none ${isFullScreenPage ? 'z-50 !m-0 !rounded-none' : ''} ${getPaddingClasses()}`}
+        >
+           {/* Main Content */}
+          {children}
+        </motion.main>
+      </div>
+
+      {!isFullScreenPage && !isFullScreen && <FriendsActivity />}
 
       {!isFullScreenPage && <DownloadProgress />}
       {!isFullScreenPage && <Player />}
-      {!isFullScreenPage && <FloatingNav />}
+      {isMobile && !isFullScreenPage && <FloatingNav />}
     </div>
   );
 };

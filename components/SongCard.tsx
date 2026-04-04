@@ -50,11 +50,16 @@ export const SongCard: React.FC<SongCardProps> = ({ item, onPlay, subtitle, roun
 
   return (
     <motion.div 
-      whileHover={{ y: -2 }}
-      whileTap={{ scale: 0.98 }}
-      initial={{ opacity: 0, scale: 0.95 }}
-      animate={{ opacity: 1, scale: 1 }}
-      transition={{ duration: 0.2, ease: "easeOut" }}
+      whileHover={{ y: -4, scale: 1.02 }}
+      whileTap={{ scale: 0.96 }}
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ 
+        type: "spring",
+        damping: 20,
+        stiffness: 300,
+        mass: 0.5
+      }}
       onClick={handleClick}
       className="group relative bg-transparent transition-colors cursor-pointer w-[140px] md:w-[160px] shrink-0"
     >
