@@ -22,6 +22,7 @@ import { Signup } from './pages/Signup';
 import { Profile } from './pages/Profile';
 import { Social } from './pages/Social';
 import { ArtistSelection } from './pages/ArtistSelection';
+import { ThankYou } from './pages/ThankYou';
 import { motion, AnimatePresence } from 'motion/react';
 import { usePlayerStore } from './store/playerStore';
 import { WifiOff } from 'lucide-react';
@@ -61,6 +62,7 @@ const AnimatedRoutes: React.FC = () => {
         <Route path="/signup" element={<PageTransition><Signup /></PageTransition>} />
         <Route path="/profile" element={<PageTransition><Profile /></PageTransition>} />
         <Route path="/artists/select" element={<PageTransition><ArtistSelection /></PageTransition>} />
+        <Route path="/thank-you" element={<PageTransition><ThankYou /></PageTransition>} />
       </Routes>
     </AnimatePresence>
   );
