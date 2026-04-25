@@ -1,7 +1,7 @@
 import { Song, Album, Artist, Playlist } from '../types';
 
 const BASE_URL = 'https://musicapi-gray.vercel.app/api';
-const YT_BASE_URL = '/api';
+const YT_BASE_URL = 'http://103.190.92.4:8000';
 
 // --- OFFLINE STORAGE (IndexedDB) ---
 const DB_NAME = 'vibestream_offline_db';
